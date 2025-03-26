@@ -1,3 +1,18 @@
+# import pandas as pd
+# import numpy as np
+
+
+# # define functions for feature engineering
+# # they should be very generally defined, so that they can be used for different dataframes or columns and so on!
+# # this functions will then be imported in the train.py script!
+
+# # eg. drop columns
+# # the -> annotation defines the datatype of the return value (so it makes sure, that the return value is a pd.DataFrame!)
+# def drop_column(df: pd.DataFrame, col_name: str) -> pd.DataFrame:
+#     df = df.drop([col_name], axis=1)
+#     return df
+
+
 import pandas as pd
 import numpy as np
 
