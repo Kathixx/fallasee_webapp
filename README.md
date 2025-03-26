@@ -5,13 +5,71 @@
 ## About the idea
 
 
+## Used Datasets
+We merged our dataset from different datasets, you can found here:
+- [Argotario](https://github.com/UKPLab/argotario/tree/master)
 
 
-## Requirements:
-- pyenv with Python: 3.11.3
 
-### Setup
-Use the requirements file in this repo to create a new environment.
+## Run
+
+### Backend
+_in your backend folder, in different terminal tabs_
+
+**1. Flask App:**
+```bash
+source .venv/bin/activate
+python app.py # should run on http://127.0.0.1:5000
+```
+
+**2. MLFlow:**
+```bash
+source .venv/bin/activate
+mlflow ui --port 5001 #should run on http://127.0.0.1:5001
+```
+
+to train the model and keep tracking with MLFlow, open another terminal tab:
+```bash
+source .venv/bin/activate
+python -m modeling.train
+```
+
+
+<!-- In order to test that predict works on a test set you created run:
+
+```bash
+python modeling/predict.py models/linear data/X_test.csv data/y_test.csv
+``` -->
+
+**3. Ruff:** _(optional)_
+```bash
+source .venv/bin/activate
+ruff check --watch
+```
+
+**more helpful commands from ruff:**
+- `ruff rule F821`: more detailed explanation about the error message
+- `ruff check --fix`: fix all errors, whith a fix-flag [*]
+- `ruff format`: format the files
+
+### Frontend
+_in your frontend folder, in a new terminal tab_
+
+**1. VueApp**
+```bash
+npm run dev # app should run on http://localhost:5173/
+```
+
+
+
+
+## Initial Setup
+
+### Backend
+_in the backend folder_
+
+
+**1. Virtuell Environment, Install requirements**
 
 ```BASH
 pyenv local 3.11.3
@@ -23,55 +81,35 @@ pip install -r requirements_dev.txt
 
 The `requirements.txt` file contains the libraries needed for deployment.. of model or dashboard .. thus no jupyter or other libs used during development.
 
-### MLFlow
-create a `mlflow_uri` file:
+**2. MLFlow**
+
+create a `mlflow_uri` file in the backend folder
 
 ```BASH
-echo http://127.0.0.1:5000/ > .mlflow_uri
+echo http://127.0.0.1:5001/ > .mlflow_uri
 ```
 
-**Creating an MLFlow experiment**
-
-Create a new experiment and save the  name in the [config file](modeling/config.py).
-```bash
-mlflow experiments create --experiment-name 0-template-ds-modeling
-```
-
-
-**Handle errors:** 
+Handle errors:
 
 ```bash
 # MLFlow server already running
 pkill -f gunicorn
 ```
 
+### Frontend
+_everything will be installed globally, it's not importend in which folder you're right now_
 
-## Usage
-
-### Run the backend and MLFlow
-in the terminal in your backend folder
+**1. Node & NPM**: check if you have already node and npm installed
 
 ```bash
-source .venv/bin/activated
+node -v # v23.7.0
+npm -v # 11.2.0
 
-mlflow ui
+# update if necessary
+npm install -g npm@11.2.0
 ```
-
-MLFlow is running on: [http://127.0.0.1:5000](http://127.0.0.1:5000)
-
-
-### Train/Test the model
-in a new terminal in your backend folder (MLFlow is still running!)
-
+**2. VueCLI & Vite**
 ```bash
-#activate env
-source .venv/bin/activate
-
-python -m modeling.train
+npm install -g @vue/cli
+npm install vite
 ```
-
-<!-- In order to test that predict works on a test set you created run:
-
-```bash
-python modeling/predict.py models/linear data/X_test.csv data/y_test.csv
-``` -->
