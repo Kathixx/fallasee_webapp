@@ -63,7 +63,7 @@ ___
 in a new terminal tab, direct into the backend folder
 to run the mlflow:
 ```bash
-mlflow run --port 5001
+mlflow ui --port 5001
 ```
 _we will use a different port here, because in our initial one (5000), our flask app is already running_
 _to not get into trouble, change the port number in the .mlflow.uri file also to 5001_ 
