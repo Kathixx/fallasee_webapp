@@ -1,18 +1,9 @@
 from logging import getLogger
-import pandas as pd
-from sklearn.model_selection import train_test_split
-from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 import random 
-import pickle
 import warnings
 import mlflow
-from mlflow.sklearn import save_model  # , log_model
 
 # import the functions, which we have defined in the feature_engineering.py script
-from modeling.feature_engineering import (
-    drop_column,
-    # function_name
-)
 
 # import the functions, which we have defined in the train.py script
 from modeling.train import (
@@ -26,9 +17,8 @@ warnings.filterwarnings("ignore")
 logger = getLogger(__name__)
 
 def run_training():
-    logger.info(f"Getting the data")
-    y_test = pd.read_csv("../data/y_test.csv")
-    y_train = pd.read_csv("../data/y_train.csv")
+    logger.info("Getting the data")
+    X_train, X_test, y_train, y_test = __get_data()
 
     logger.info("Training baseline model and tracking with MLFlow")
     mlflow.set_tracking_uri(TRACKING_URI)
@@ -42,7 +32,7 @@ def run_training():
         y_test_pred = random.choices(y_train_list, k=len(y_test))
 
         # in mlFlow a tag has a name (like 'modelX') and a corresponding value (here: true).
-        mlflow.set_tag("mlflow.runName", "run_name")
+        mlflow.set_tag("mlflow.runName", "baseline_model")
         mlflow.set_tag("baseline_model", "True")
 
         logger.info("Evaluating the baseline model")
