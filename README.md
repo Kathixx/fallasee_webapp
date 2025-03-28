@@ -2,14 +2,51 @@
 **Authors:**
 @Maren Borman, @Aylin Hanne, @Parya Tavaloki-Tehrani, @Katharina Baumgartner
 
-## About the idea
+## About the Project
+This project began as part of our Capstone Phase at [neuefische GmbH](https://www.neuefische.de). Our idea was to train an NLP Model to detect logical fallacies in sentences and build a web application where users can enter their own sentences.
 
 
 ## Used Datasets
-We merged our dataset from different datasets, you can found here:
-- [Argotario](https://github.com/UKPLab/argotario/tree/master)
+We have merged our dataset from the following datasets:
+1) [Jin et al. (2022)](https://arxiv.org/pdf/2202.13758). Dataset:
+[LogicClimate](https://github.com/causalNLP/logical-fallacy/tree/main/data) 
+
+2) Midhun Kandan. *Logical Fallacy Classification*. 2004. Dataset: [Hugging Face Dataset](https://huggingface.co/datasets/MidhunKanadan/logical-fallacy-classification)
+
+3) [Yeh et al. (2024)](https://arxiv.org/pdf/2410.03457v1). Dataset:
+[CoCoLoFa](https://github.com/Crowd-AI-Lab/cocolofa) 
+
+4) [Chaves et al. (2025)](https://hal.science/hal-04834405/document). Dataset:
+[FALCON](https://github.com/m-chaves/falcon-fallacy-classification) 
+
+5) [Alhindi et al. (2022)](https://aclanthology.org/2022.emnlp-main.560.pdf). Dataset:
+[Datasets](https://github.com/Tariq60/fallacy-detection) 
+
+6) [Helwe et al. (2024)](https://arxiv.org/pdf/2311.09761). Dataset:
+[MAFALDA](https://github.com/ChadiHelwe/MAFALDA) 
+
+7) [Goffredo et al. (2023)](https://aclanthology.org/2023.emnlp-main.684.pdf). Dataset:
+[ElecDeb60to20](https://github.com/pierpaologoffredo/ElecDeb60to20) 
 
 
+## Categories of Logical Fallacies
+After cleaning the data, we trained our model on the five most common fallacies present in the dataset, as well as on sentences that do not contain any logical fallacies.
+
+Categories used for training:
+- No fallacy
+- ..
+- ..
+- ..
+- ..
+- ..
+
+## Web Application
+
+The definitions of the fallacies were taken from the research papers cited above or adjusted by us as needed.
+
+## NLP Model
+
+...
 
 ## Run
 
