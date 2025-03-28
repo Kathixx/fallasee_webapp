@@ -1,7 +1,7 @@
 from logging import getLogger
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.metrics import mean_squared_error, r2_score
+from sklearn.metrics import accuracy_score, recall_score, precision_score, f1_score
 from sklearn.linear_model import LinearRegression
 import pickle
 import warnings
@@ -52,20 +52,33 @@ def __get_data():
 
 
 def __compute_and_log_metrics(
-    y_true: pd.Series, y_pred: pd.Series, prefix: str = "train"
+    y_true: pd.Series,
+    y_pred: pd.Series,
+    prefix: str = "train",
+    average: str = "macro"  # 'macro' is suitable for most multiclass scenarios
 ):
-    mse = mean_squared_error(y_true, y_pred)
-    r2 = r2_score(y_true, y_pred)
+    # Calculate classification metrics
+    accuracy = accuracy_score(y_true, y_pred)
+    recall = recall_score(y_true, y_pred, average=average)
+    precision = precision_score(y_true, y_pred, average=average)
+    f1 = f1_score(y_true, y_pred, average=average)
 
+    # Log metrics
     logger.info(
-        "Linear Regression performance on "
-        + str(prefix)
-        + " set: MSE = {:.1f}, R2 = {:.1%},".format(mse, r2)
+        f"Multiclass classification performance on {prefix} set: "
+        f"Accuracy = {accuracy:.1%}, "
+        f"Recall = {recall:.1%}, "
+        f"Precision = {precision:.1%}, "
+        f"F1 = {f1:.1%}"
     )
-    mlflow.log_metric(prefix + "-" + "MSE", mse)
-    mlflow.log_metric(prefix + "-" + "R2", r2)
 
-    return mse, r2
+    # MLflow logging
+    mlflow.log_metric(f"{prefix}-accuracy", accuracy)
+    mlflow.log_metric(f"{prefix}-recall", recall)
+    mlflow.log_metric(f"{prefix}-precision", precision)
+    mlflow.log_metric(f"{prefix}-f1", f1)
+
+    return accuracy, recall, precision, f1
 
 
 def run_training():
