@@ -23,9 +23,9 @@ logger = getLogger(__name__)
 def __get_data():
     logger.info("Getting the data")
     # load the data
-    df = pd.read_csv("data/path.csv")
+    df = pd.read_csv("data/data_small.csv")
 
-    # define target and features
+    # define target and features --> needs to be changed 
     Y = df["target"]
     X = df.drop(["target"])
 
@@ -39,14 +39,14 @@ def __get_data():
     X_test.to_csv("data/X_test.csv", index=False)
     y_test.to_csv("data/y_test.csv", index=False)
 
-    logger.info("Feature engineering on train")
-    X_train = drop_column(X_train, col_name="Unnamed: 0")
-    X_train = drop_column(X_train, col_name="Quakers")
+    # logger.info("Feature engineering on train")
+    # X_train = drop_column(X_train, col_name="Unnamed: 0")
+    # X_train = drop_column(X_train, col_name="Quakers")
 
-    # feature eng on test data
-    logger.info("Feature engineering on test")
-    X_test = drop_column(X_test, col_name="Unnamed: 0")
-    X_test = drop_column(X_test, col_name="Quakers")
+    # # feature eng on test data
+    # logger.info("Feature engineering on test")
+    # X_test = drop_column(X_test, col_name="Unnamed: 0")
+    # X_test = drop_column(X_test, col_name="Quakers")
 
     return X_train, X_test, y_train, y_test
 
