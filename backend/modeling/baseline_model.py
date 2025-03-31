@@ -3,15 +3,14 @@ import random
 import warnings
 import mlflow
 
-# import the functions, which we have defined in the feature_engineering.py script
 
 # import the functions, which we have defined in the train.py script
-from modeling.train import (
+from train import (
     __get_data,
     __compute_and_log_metrics,
 )
 
-from modeling.config import TRACKING_URI, EXPERIMENT_NAME
+from config import TRACKING_URI, EXPERIMENT_NAME
 
 warnings.filterwarnings("ignore")
 logger = getLogger(__name__)

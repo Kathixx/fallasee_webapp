@@ -9,12 +9,12 @@ import mlflow
 from mlflow.sklearn import save_model  # , log_model
 
 # import the functions, which we have defined in the feature_engineering.py script
-from modeling.feature_engineering import (
+from feature_engineering import (
     drop_column,
     # function_name
 )
 
-from modeling.config import TRACKING_URI, EXPERIMENT_NAME
+from config import TRACKING_URI, EXPERIMENT_NAME
 
 warnings.filterwarnings("ignore")
 logger = getLogger(__name__)
@@ -25,17 +25,18 @@ def __get_data():
     # load the data
     df = pd.read_csv("data/data_small.csv")
 
-    # define target and features --> needs to be changed 
-    Y = df["target"]
-    X = df.drop(["target"])
+    # define target and features 
+    Y = df["logical_fallacies"]
+    X = df["text"]
 
     # splitting into train and test
     X_train, X_test, y_train, y_test = train_test_split(
         X, Y, test_size=0.30, random_state=42
     )
 
-    ## in order to exemplify how the predict will work.. we will save the y_train
     logger.info("Saving test data in the data folder")
+    X_train.to_csv("data/X_train.csv", index=False)
+    y_train.to_csv("data/y_train.csv", index=False)
     X_test.to_csv("data/X_test.csv", index=False)
     y_test.to_csv("data/y_test.csv", index=False)
 
@@ -81,7 +82,7 @@ def __compute_and_log_metrics(
     return accuracy, recall, precision, f1
 
 
-def run_training():
+""" def run_training():
     logger.info(f"Getting the data")
     X_train, X_test, y_train, y_test = __get_data()
 
@@ -115,7 +116,7 @@ def run_training():
         __compute_and_log_metrics(y_test, y_test_pred, "test")
 
         logger.info("this is obviously fishy")
-
+ 
         # saving the model
         # logger.info("Saving model in the model folder")
         # path = "models/linear"
@@ -131,3 +132,4 @@ if __name__ == "__main__":
     logger.setLevel(logging.INFO)
 
     run_training()
+ """
