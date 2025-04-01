@@ -1,10 +1,24 @@
 <script setup>
+  import Fallacy from '../components/Fallacy.vue'
 </script>
 
 <template>
   <main>
-    <div>
-      <h1>Hello Aylin, Maren & Parya, this is our webapp! Wuhuu!</h1>
+    <div class="row" id="detector">
+      <div class="col-8 offset-2">
+        <p>Fallacify can detect logical fallacies in a sentence or argument. Just write your sentence or argument in the field below.</p>
+        <textarea v-model="fallacy" placeholder="Type your sentence here" ></textarea>
+      </div>
+      <div class="col-8 offset-2 button">
+        <button @click="predict">
+          Detect Fallacy
+        </button>
+      </div>
+      <div class="row prediction">
+        <div class="col-md-8 offset-2">
+          <Fallacy></Fallacy>
+        </div>
+      </div>
     </div>
   </main>
 </template>
