@@ -15,3 +15,6 @@ protobuf==4.23.3
 Flask==2.3.3
 flask-cors==5.0.1
 ruff==0.11.2
+
+
+nltk==3.9.1 # preprocess text for basic models
