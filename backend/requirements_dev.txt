@@ -22,3 +22,5 @@ pyarrow==15.0.0
 tf_keras==2.19.0
 accelerate==1.5.2
 
+
+nltk==3.9.1 # preprocess text for basic models
