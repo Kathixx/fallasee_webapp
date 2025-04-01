@@ -1,5 +1,5 @@
 definitions = {
-    'appeal_to_emotion': 'This fallacy is when emotion is used to support an argument, such as pity, fear, anger, etc.',
+    'appeal_to_emotion': 'This fallacy occurs when emotion is used to support an argument, such as pity, fear, anger, etc.',
     'faulty_generalization': 'This fallacy occurs when an argument assumes something is true for a large population without having a large enough sample. A kind of overgeneralization.',
     'ad_hominem': 'This fallacy occurs when the speaker is attacking the other person or some aspect of them rather than addressing the argument itself.',
     'false_dilemma': 'This fallacy occurs when only two options are presented in an argument, even though more options may exist. A case of “either this or that”.',
