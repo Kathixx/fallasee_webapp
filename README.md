@@ -33,18 +33,24 @@ We have merged our dataset from the following datasets:
 After cleaning the data, we trained our model on the five most common fallacies present in the dataset, as well as on sentences that do not contain any logical fallacies.
 
 Categories used for training:
-- No fallacy
-- ..
-- ..
-- ..
-- ..
-- ..
 
-## Web Application
+| Category  |  Definition |
+|---|---|
+| Ad Hominem  |  This fallacy occurs when the speaker is attacking the other person or some aspect of them rather than addressing the argument itself. |
+|Appeal to Authority | This fallacy occurs when an argument relies on the opinion or endorsement of an authority figure who may not have relevant expertise or whose expertise is questionable.| 
+| Appeal to Emotion | This fallacy occurs when an emotion is used to support an argument, such as pity, fear, anger, etc..  |
+| Faulty Generalization  | This fallacy occurs when an argument assumes something is true for a large population without having a large enough sample. A kind of overgeneralization. | 
+| False Dilemma | This fallacy occurs when only two options are presented in an argument, even though more options may exist. A case of “either this or that.|
+|None | There are no fallacies in the text.|
 
-The definitions of the fallacies were taken from the research papers cited above or adjusted by us as needed.
+<br>
+
+*Please note*: The definitions of the fallacies were taken from the research papers cited above or adjusted by us as needed.
+
 
 ## NLP Model
+
+## Web Application
 
 ...
 
