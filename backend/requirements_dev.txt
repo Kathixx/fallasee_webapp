@@ -1,3 +1,4 @@
+
 jupyterlab==3.6.3
 matplotlib==3.7.1
 numpy==1.26.4
@@ -19,6 +20,10 @@ ruff==0.11.2
 transformers==4.50.3
 sentencepiece==0.2.0  # for DeBERTa-v3 tokenizer
 pyarrow==15.0.0
+
+torch==2.2.2
+torchaudio==2.2.2
+torchvision==0.17.2
 tf_keras==2.19.0
 accelerate==1.5.2
 
