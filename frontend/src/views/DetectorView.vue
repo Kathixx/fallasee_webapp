@@ -10,13 +10,14 @@
         <textarea v-model="fallacy" placeholder="Type your sentence here" ></textarea>
       </div>
       <div class="col-8 offset-2 button">
-        <button @click="predict">
+        <button @click="pushFallacy(fallacy)">
           Detect Fallacy
         </button>
       </div>
       <div class="row prediction">
         <div class="col-md-8 offset-2">
-          <Fallacy></Fallacy>
+          {{ prediction }}
+          <!-- <Fallacy></Fallacy> -->
         </div>
       </div>
     </div>
@@ -24,45 +25,47 @@
 </template>
 
 <!-- https://heartbeat.comet.ml/deploying-a-text-classification-model-using-flask-and-vue-js-25b9aa7ff048 -->
-<!-- <script>
+<script>
 import axios from 'axios'
+axios.defaults.withCredentials = true;  // Ensure cookies are sent with requests
 
 export default {
   data () {
     return {
-      textClassify: [],
-      id: '',
-      taskname: '',
-      isEdit: false
+      prediction: 'test',
+      fallacy : ''
     }
   },
-  mounted () {
-    this.getTasks()
-  },
+  // mounted () {
+  //   this.getTasks()
+  // },
   methods: {
-    getTasks () {
-      axios({ method: 'GET', url: '/api/tasks' }).then(
+    getPrediction () {
+      // , withCredentials: true
+      axios({ method: 'GET', url: 'http://localhost:5000/predict' }).then(
         result => {
           console.log(result.data)
-          this.textClassify = result.data
+          this.prediction = result.data.prediction
         },
         error => {
           console.error(error)
         }
-      )
-    },
-    addNewTask () {
-      axios.post('/api/task',
-        { title: this.taskname })
+      )},
+    pushFallacy () {
+      axios.post('http://localhost:5000/predict',
+        { fa: this.fallacy }, 
+        // { withCredentials: true }
+        )
         .then(res => {
-          this.taskname = ''
-          this.getTasks()
+          this.fallacy = ''
+          this.getPrediction()
           console.log(res)
-        }
+        })
         .catch(err => {
           console.log(err)
         })
       }
-    }
+  }
+  
 }
-</script> -->
+</script>
