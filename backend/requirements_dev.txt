@@ -21,8 +21,12 @@ transformers==4.50.3
 sentencepiece==0.2.0  # for DeBERTa-v3 tokenizer
 pyarrow==15.0.0
 
-# added for DestilBert
 torch==2.2.2
 torchaudio==2.2.2
 torchvision==0.17.2
-accelerate==1.5.2 # The code the error message gave me was `pip install accelerate>=0.26.0`, and this version was installed 
+tf_keras==2.19.0
+accelerate==1.5.2
+
+
+nltk==3.9.1 # preprocess text for basic models
+
