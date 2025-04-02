@@ -4,10 +4,19 @@ import { RouterLink, RouterView } from 'vue-router'
 
 <template>
   <header>
-    <div>
-      <nav>
-        <RouterLink to="/">Home</RouterLink>
+    <div class="row">
+      <div class="col-md-4 col-12">
+        <h1>Fallacify</h1>
+        <h3>Logic Fallacies<br> Detection</h3>
+      </div>
+      <div class="col-md-8 col-12">
+        <nav>
+          <RouterLink to="/">Detection</RouterLink>
+          <RouterLink to="/">Fallacies</RouterLink>
+          <RouterLink to="/">About</RouterLink>
       </nav>
+      </div>
+      
     </div>
   </header>
 

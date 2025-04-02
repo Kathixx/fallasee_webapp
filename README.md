@@ -156,3 +156,8 @@ npm install -g npm@11.2.0
 npm install -g @vue/cli
 npm install vite
 ```
+
+**3. Axios**
+```bash
+npm install axios
+```
