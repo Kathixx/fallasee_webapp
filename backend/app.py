@@ -50,6 +50,42 @@ CORS(app, resources={
 })
 
 
+tokenizer = AutoTokenizer.from_pretrained('microsoft/deberta-v3-base', use_fast=False)
+
+def tokenize(texts):
+    return tokenizer(
+        texts,
+        padding="max_length", #ensures that all tokenized sequences are padded to the same length, padding adds special tokens to shorter sequeces so they match the maximum length
+        truncation=True, #if sequence exceeds max, it will be trucated
+        max_length=512, #for most transformer models, 512 is a common limit for maximum length
+        return_tensors="pt" #converts the output to pytorch tensors
+    )
+
+def predict(model, encodings, batch_size=8):
+    # Set the model to evaluation mode
+    model.eval()
+    
+    # Use GPU
+    device = torch.device("mps")
+    model.to(device)
+    
+    # Perform inference
+    probabilities = []
+    for i in range(0, len(encodings["input_ids"]), batch_size):
+        with torch.no_grad():
+            batch = {
+                "input_ids": encodings["input_ids"][i:i+batch_size].to(device),
+                "attention_mask": encodings["attention_mask"][i:i+batch_size].to(device)
+            }
+            outputs = model(**batch)
+            probs = torch.softmax(outputs.logits, dim=-1).cpu().numpy()
+            probabilities.extend(probs)
+            
+        # Clear GPU memory after each batch
+        torch.mps.empty_cache()
+    
+    return np.array(probabilities)
+
 
 @app.route("/")
 def hello():
@@ -77,18 +113,18 @@ def get_result():
     session.clear()
     return jsonify({'prediction': data_result})
 
-@app.route('/predict', methods=['POST'])
-@cross_origin(origin='http://localhost:5173')
-def input_predict_text():
-    #get input
-    fallacy = request.get_json()['fa']
-    result = 'Fallacy' + fallacy 
-    session['result'] = result
-    session.permanent = True
-    session.modified = True  # Force session save
-    print('result:', result)
-    print ('Session set: ', session.get('result'))
-    return jsonify(result)
+# @app.route('/predict', methods=['POST'])
+# @cross_origin(origin='http://localhost:5173')
+# def input_predict_text():
+#     #get input
+#     fallacy = request.get_json()['fa']
+#     result = 'Fallacy' + fallacy 
+#     session['result'] = result
+#     session.permanent = True
+#     session.modified = True  # Force session save
+#     print('result:', result)
+#     print ('Session set: ', session.get('result'))
+#     return jsonify(result)
 
 
 
@@ -103,8 +139,13 @@ def input_predict_text():
     # tokenize sentence
     single_encoding = tokenizer(fallacy, return_tensors='pt')
     probabilities = predict(model, single_encoding)
-  
-    session['my_result'] = result
+    result = np.argmax(probabilities, axis=1)
+    
+    session['my_result'] = probabilities
+    session.permanent = True
+    session.modified = True  # Force session save
+    print('result:', result)
+    print ('Session set: ', session.get('result'))
     return jsonify({'result': result})
 
 if __name__ == "__main__":
