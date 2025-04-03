@@ -5,7 +5,7 @@ import { RouterLink, RouterView } from 'vue-router'
 <template>
   <header>
     <div class="row">
-      <div class="col-md-4 col-12">
+      <div class="col-md-4 col-12 logo">
         <h1>Fallacify</h1>
         <h3>Logic Fallacies<br> Detection</h3>
       </div>

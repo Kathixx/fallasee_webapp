@@ -1,0 +1,34 @@
+{
+    "definitions" :[
+        {
+            "id": 0,
+            "fallacy": "ad hominem",
+            "explanation": "This fallacy occurs when the speaker is attacking the other person or some aspect of them rather than addressing the argument itself."
+        },
+        {
+            "id": 1,
+            "fallacy": "appeal to authority",
+            "explanation": "This fallacy occurs when an argument relies on the opinion or endorsement of an authority figure who may not have relevant expertise or whose expertise is questionable. When applicable, a scientific consensus is not an appeal to authority."
+        },
+        {
+            "id": 2,
+            "fallacy": "appeal to emotion",
+            "explanation": "This fallacy occurs when emotion is used to support an argument, such as pity, fear, anger, etc."
+        },
+        {
+            "id": 3,
+            "fallacy": "false dilemma",
+            "explanation": "This fallacy occurs when only two options are presented in an argument, even though more options may exist. A case of “either this or that”."
+        },
+        {
+            "id": 4,
+            "fallacy": "faulty generalization",
+            "explanation": "This fallacy occurs when an argument assumes something is true for a large population without having a large enough sample. A kind of overgeneralization."
+        },
+        {
+            "id": 5,
+            "fallacy": "no fallacy",
+            "explanation": "The AI didn't dedect any fallacies in this text. But AI might make mistakes. Check your text again!"
+        }
+    ] 
+}
