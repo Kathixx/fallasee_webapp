@@ -12,7 +12,7 @@ import { RouterLink, RouterView } from 'vue-router'
       <div class="col-md-8 col-12">
         <nav>
           <RouterLink to="/">Detection</RouterLink>
-          <RouterLink to="/">Fallacies</RouterLink>
+          <RouterLink to="/logical_fallacies">Fallacies</RouterLink>
           <RouterLink to="/">About</RouterLink>
       </nav>
       </div>

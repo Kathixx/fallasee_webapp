@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import DetectorView from '@/views/DetectorView.vue'
+import FallacyView from '@/views/FallacyView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -8,6 +9,11 @@ const router = createRouter({
       path: '/',
       name: 'detector',
       component: DetectorView,
+    },
+    {
+      path: '/logical_fallacies',
+      name: 'fallacies',
+      component: FallacyView,
     },
     
   ],

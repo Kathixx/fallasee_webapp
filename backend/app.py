@@ -151,10 +151,10 @@ def input_predict_text():
     # classifier = TextClassifier.load_from_file('models/best-model.pt')
     model = mlflow.sklearn.load_model('models/LLM_deberta_v3_small')
     #get input
-    fallacy = request.get_json()['fa']
+    txt = request.get_json()['txt']
     # tokenize sentence
-    single_encoding = tokenizer(fallacy, return_tensors='pt')
-    probabilities = predict(model, single_encoding)
+    encoded_txt = tokenizer(txt, return_tensors='pt')
+    probabilities = predict(model, encoded_txt)
     result = np.argmax(probabilities, axis=1)
     result = int(result[0])
     fallacy_label = get_label(result)
