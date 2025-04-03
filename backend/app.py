@@ -86,6 +86,21 @@ def predict(model, encodings, batch_size=8):
     
     return np.array(probabilities)
 
+def get_label(label):
+    if label == 0:
+        return 'ad_hominem'
+    if label == 1:
+        return 'appeal to authority'
+    if label == 2:
+        return 'appeal to emotion'
+    if label == 3:
+        return 'false dilemma'
+    if label == 4:
+        return 'faulty generalization'
+    if label == 5:
+        return 'none'
+
+
 
 @app.route("/")
 def hello():
@@ -108,10 +123,11 @@ def after_request(response):
 @app.route('/predict', methods=['GET'])
 @cross_origin(origin='http://localhost:5173')
 def get_result():
-    data_result = session.get('result', 'no data found')
+    result = session.get('result', 'no data found')
+    label = session.get('label', 'no data found')
     print('session result:', session)
     session.clear()
-    return jsonify({'prediction': data_result})
+    return jsonify({'result': result, 'fallacy_label': label})
 
 # @app.route('/predict', methods=['POST'])
 # @cross_origin(origin='http://localhost:5173')
@@ -140,13 +156,15 @@ def input_predict_text():
     single_encoding = tokenizer(fallacy, return_tensors='pt')
     probabilities = predict(model, single_encoding)
     result = np.argmax(probabilities, axis=1)
-    
-    session['my_result'] = probabilities
+    result = int(result[0])
+    fallacy_label = get_label(result)
+    session['result'] = result
+    session['label'] = fallacy_label
     session.permanent = True
     session.modified = True  # Force session save
     print('result:', result)
     print ('Session set: ', session.get('result'))
-    return jsonify({'result': result})
+    return jsonify({'result': result, 'fallacy': fallacy_label})
 
 if __name__ == "__main__":
     app.run(debug=True)

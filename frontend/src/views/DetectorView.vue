@@ -16,7 +16,10 @@
       </div>
       <div class="row prediction">
         <div class="col-md-8 offset-2">
-          {{ prediction }}
+          <p> You wanted to detect a logical fallacy in this sentence/argument:</p>
+          <p style="font-family: 'Montserrat-Bold';">{{ predicted_fallacy }}</p>
+          <p>This is your result:</p>
+          <p style="font-family: 'Montserrat-Bold';">{{ prediction }} {{ fallacy_label }}</p>
           <!-- <Fallacy></Fallacy> -->
         </div>
       </div>
@@ -32,8 +35,10 @@ axios.defaults.withCredentials = true;  // Ensure cookies are sent with requests
 export default {
   data () {
     return {
-      prediction: 'test',
-      fallacy : ''
+      prediction: 'number',
+      fallacy_label: 'label',
+      fallacy : '',
+      predicted_fallacy : ''
     }
   },
   // mounted () {
@@ -45,13 +50,15 @@ export default {
       axios({ method: 'GET', url: 'http://localhost:5000/predict' }).then(
         result => {
           console.log(result.data)
-          this.prediction = result.data.prediction
+          this.prediction = result.data.result
+          this.fallacy_label = result.data.fallacy_label
         },
         error => {
           console.error(error)
         }
       )},
     pushFallacy () {
+      this.predicted_fallacy = this.fallacy
       axios.post('http://localhost:5000/predict',
         { fa: this.fallacy }, 
         // { withCredentials: true }
