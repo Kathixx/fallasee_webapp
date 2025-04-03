@@ -50,11 +50,6 @@ CORS(app, resources={
 })
 
 
-
-
-# Methods from deberta_v3.ipynb
-# maybe only import methods?
-# pipeline for predicting single sentences?
 tokenizer = AutoTokenizer.from_pretrained('microsoft/deberta-v3-base', use_fast=False)
 
 def tokenize(texts):
@@ -79,8 +74,8 @@ def predict(model, encodings, batch_size=8):
     for i in range(0, len(encodings["input_ids"]), batch_size):
         with torch.no_grad():
             batch = {
-                key: val[i:i+batch_size].to(device) 
-                for key, val in encodings.items()
+                "input_ids": encodings["input_ids"][i:i+batch_size].to(device),
+                "attention_mask": encodings["attention_mask"][i:i+batch_size].to(device)
             }
             outputs = model(**batch)
             probs = torch.softmax(outputs.logits, dim=-1).cpu().numpy()
@@ -90,6 +85,22 @@ def predict(model, encodings, batch_size=8):
         torch.mps.empty_cache()
     
     return np.array(probabilities)
+
+def get_label(label):
+    if label == 0:
+        return 'ad_hominem'
+    if label == 1:
+        return 'appeal to authority'
+    if label == 2:
+        return 'appeal to emotion'
+    if label == 3:
+        return 'false dilemma'
+    if label == 4:
+        return 'faulty generalization'
+    if label == 5:
+        return 'none'
+
+
 
 @app.route("/")
 def hello():
@@ -112,50 +123,48 @@ def after_request(response):
 @app.route('/predict', methods=['GET'])
 @cross_origin(origin='http://localhost:5173')
 def get_result():
-    data_result = session.get('result', 'no data found')
+    result = session.get('result', 'no data found')
+    label = session.get('label', 'no data found')
     print('session result:', session)
-    # session.clear()
-    return jsonify({'prediction': data_result})
-
-@app.route('/predict', methods=['POST'])
-@cross_origin(origin='http://localhost:5173')
-def input_predict_text():
-    #get input
-    fallacy = request.get_json()['fa']
-    result = 'Fallacy' + fallacy 
-    session['result'] = result
-    session.permanent = True
-    session.modified = True  # Force session save
-    print('result:', result)
-    print ('Session set: ', session.get('result'))
-    return jsonify(result)
-
-
-# @app.route('/predict', methods=['GET'])
-# @cross_origin(origin='http://localhost:5173')
-# def get_result():
-#     result = []
-#     data_result = session['my_result']
-#     result.append ({'probs': data_result})
-#     session.clear()
-#     return jsonify(result)
+    session.clear()
+    return jsonify({'result': result, 'fallacy_label': label})
 
 # @app.route('/predict', methods=['POST'])
 # @cross_origin(origin='http://localhost:5173')
 # def input_predict_text():
-#     #path to the classification model
-#     # classifier = TextClassifier.load_from_file('models/best-model.pt')
-#     model = mlflow.sklearn.load_model('models/LLM_deberta_v3_small')
 #     #get input
 #     fallacy = request.get_json()['fa']
-#     # tokenize sentence
-#     tokenized_fallacy = tokenize(fallacy)
-#     base_probs = predict(model, tokenized_fallacy, batch_size=2)
-#     predicted_labels = np.argmax(base_probs, axis=1)
-#     predicted_label_probs = base_probs[np.arange(len(predicted_labels)), predicted_labels]
-#     # result = {'title' : text, 'tag' : label.value}
-#     session['my_result'] = predicted_label_probs
-#     return jsonify({'result': predicted_label_probs})
+#     result = 'Fallacy' + fallacy 
+#     session['result'] = result
+#     session.permanent = True
+#     session.modified = True  # Force session save
+#     print('result:', result)
+#     print ('Session set: ', session.get('result'))
+#     return jsonify(result)
+
+
+
+@app.route('/predict', methods=['POST'])
+@cross_origin(origin='http://localhost:5173')
+def input_predict_text():
+    #path to the classification model
+    # classifier = TextClassifier.load_from_file('models/best-model.pt')
+    model = mlflow.sklearn.load_model('models/LLM_deberta_v3_small')
+    #get input
+    fallacy = request.get_json()['fa']
+    # tokenize sentence
+    single_encoding = tokenizer(fallacy, return_tensors='pt')
+    probabilities = predict(model, single_encoding)
+    result = np.argmax(probabilities, axis=1)
+    result = int(result[0])
+    fallacy_label = get_label(result)
+    session['result'] = result
+    session['label'] = fallacy_label
+    session.permanent = True
+    session.modified = True  # Force session save
+    print('result:', result)
+    print ('Session set: ', session.get('result'))
+    return jsonify({'result': result, 'fallacy': fallacy_label})
 
 if __name__ == "__main__":
     app.run(debug=True)
