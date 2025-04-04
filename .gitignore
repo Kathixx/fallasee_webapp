@@ -129,11 +129,13 @@ dmypy.json
 .pyre/
 
 
-backend/data/*
-backend/models/*
-models/*.sav
-mlruns
-models/*
+backend/data/
+backend/models/
+backend/models/*.sav
+backend/mlruns/
+backend/modeling/mlruns/
+backend/modeling/fallacy-model/
+backend/mlartifacts/
 
 #config file has sensitive data
 .mlflow_uri

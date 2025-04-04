@@ -37,3 +37,7 @@ langchain-openai==0.2.3
 langchain-huggingface==0.1.0
 langchain-groq==0.2.0
 langchainhub==0.1.21
+
+# for importing functions from notebook
+ipynb==0.5.1
+
