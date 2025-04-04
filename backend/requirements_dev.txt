@@ -30,10 +30,14 @@ accelerate==1.5.2
 
 nltk==3.9.1 # preprocess text for basic models
 
-#for zero shot with API
+#for langchain
 python-dotenv==1.0.1
 langchain-community==0.3.2
 langchain-openai==0.2.3
 langchain-huggingface==0.1.0
 langchain-groq==0.2.0
 langchainhub==0.1.21
+langchain==0.3.22
+langchain-core==0.3.49
+langchain-ollama==0.3.0
+langchain-text-splitters==0.3.7
