@@ -41,3 +41,6 @@ langchain==0.3.22
 langchain-core==0.3.49
 langchain-ollama==0.3.0
 langchain-text-splitters==0.3.7
+
+# for importing functions from notebook
+ipynb==0.5.1
