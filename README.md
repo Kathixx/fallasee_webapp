@@ -50,6 +50,17 @@ Categories used for training:
 
 ## NLP Model
 
+## Model Experiment Tracker
+
+| # | Model Variant         | Class Weights | Epochs | LR     | Macro F1 | Test Accuracy | Notes                        |
+|---|------------------------|---------------|--------|--------|----------|----------------|------------------------------|
+| 1 | `distilbert-base`      | ❌ No          | 3      | 3e-5   | 0.65     | 0.74           |                     |
+| 2 | `distilbert-base`      | ✅ Yes         | 4      | 5e-5   | 0.63     | 0.70           | Weighted loss + tuning       |
+| 3 | `roberta-base`         | ✅ Yes (?)         | 3      | TBD   | TBD      | TBD            | To be trained                |
+| 4 | `q3fer-fallacy-model`  | ❌ No          | 3      | 3e-5      | 0.68      | 0.74            | Pretrained on similar task   |
+| 5 | ... | ...         | -      | -      | TBD      | TBD            | ...  |
+
+
 ## Web Application
 
 ...
