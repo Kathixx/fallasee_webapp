@@ -3,8 +3,11 @@ from flask_cors import CORS, cross_origin
 import mlflow.sklearn
 from flask import session
 from datetime import timedelta
+import mlflow.pytorch
 
-# MARENS Import
+import numpy as np
+
+
 import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
@@ -22,7 +25,7 @@ from torch.utils.data import Dataset, DataLoader
 import torch
 
 from transformers import TrainingArguments, Trainer, AutoModelForSequenceClassification, AutoModel, AutoTokenizer, AutoConfig
-# END Marens Import
+ 
 
 # SECRET KEY
 # TODO: SAFE IN ENVIRONMENT VARIABLE
@@ -100,7 +103,19 @@ def get_label(label):
     if label == 5:
         return 'none'
 
+def get_first_prediction(proba):
+    pred = np.argmax(proba, axis=1)
+    pred_int = int(pred[0])
+    proba = proba[np.arange(len(pred)), pred]
+    proba_int = float(proba[0])
+    return pred_int, proba_int
 
+def get_second_prediction(proba):
+    pred = np.argsort(proba, axis=1)[:, -2] 
+    pred_int = int(pred[0])
+    proba = np.sort(proba, axis=1)[:, -2]
+    proba_int = float(proba[0])
+    return pred_int, proba_int
 
 @app.route("/")
 def hello():
@@ -123,25 +138,22 @@ def after_request(response):
 @app.route('/predict', methods=['GET'])
 @cross_origin(origin='http://localhost:5173')
 def get_result():
-    result = session.get('result', 'no data found')
-    label = session.get('label', 'no data found')
+    first_pred = session.get('first_pred', 'no data found')
+    first_proba = session.get('first_proba', 'no data found')   
+    first_label = session.get('first_label', 'no data found')   
+    second_pred = session.get('second_pred', 'no data found')
+    second_proba = session.get('second_proba', 'no data found')   
+    second_label = session.get('second_label', 'no data found') 
     print('session result:', session)
     session.clear()
-    return jsonify({'result': result, 'fallacy_label': label})
-
-# @app.route('/predict', methods=['POST'])
-# @cross_origin(origin='http://localhost:5173')
-# def input_predict_text():
-#     #get input
-#     fallacy = request.get_json()['fa']
-#     result = 'Fallacy' + fallacy 
-#     session['result'] = result
-#     session.permanent = True
-#     session.modified = True  # Force session save
-#     print('result:', result)
-#     print ('Session set: ', session.get('result'))
-#     return jsonify(result)
-
+    return jsonify({
+        'first_pred': first_pred, 
+        'first_label': first_label,
+        'first_proba': first_proba,
+        'second_pred': second_pred, 
+        'second_label': second_label,
+        'second_proba': second_proba
+        })
 
 
 @app.route('/predict', methods=['POST'])
@@ -150,21 +162,33 @@ def input_predict_text():
     #path to the classification model
     # classifier = TextClassifier.load_from_file('models/best-model.pt')
     model = mlflow.sklearn.load_model('models/LLM_deberta_v3_small')
+    # model = mlflow.pytorch.load_model("../models/distilbert_finetuned_1/pytorch_model")
     #get input
     txt = request.get_json()['txt']
-    # tokenize sentence
     encoded_txt = tokenizer(txt, return_tensors='pt')
     probabilities = predict(model, encoded_txt)
-    result = np.argmax(probabilities, axis=1)
-    result = int(result[0])
-    fallacy_label = get_label(result)
-    session['result'] = result
-    session['label'] = fallacy_label
+    first_pred, first_proba = get_first_prediction(probabilities)
+    second_pred, second_proba = get_second_prediction(probabilities)
+    first_label = get_label(first_pred)
+    second_label = get_label(second_pred)
+    session['first_pred'] = first_pred
+    session['first_proba'] = first_proba
+    session['first_label'] = first_label
+    session['second_pred'] = second_pred
+    session['second_proba'] = second_proba
+    session['second_label'] = second_label
     session.permanent = True
     session.modified = True  # Force session save
-    print('result:', result)
-    print ('Session set: ', session.get('result'))
-    return jsonify({'result': result, 'fallacy': fallacy_label})
+    print('first:', first_pred, first_label, first_proba )
+    print('second:', second_pred, second_label, second_proba)
+    return jsonify({
+        'first_pred': first_pred, 
+        'first_label': first_label,
+        'first_proba': first_proba,
+        'second_pred': second_pred, 
+        'second_label': second_label,
+        'second_proba': second_proba
+        })
 
 if __name__ == "__main__":
     app.run(debug=True)

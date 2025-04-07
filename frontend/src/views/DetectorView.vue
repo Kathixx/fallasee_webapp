@@ -20,7 +20,8 @@
           <div class="wrapper" >
             <p>{{ sentence_to_predict }}</p>
           </div>
-          <FallacyShort :label=ordinal_label ></FallacyShort>
+          <FallacyShort :label=first_pred :proba=first_proba :number_fa=1 ></FallacyShort>
+          <FallacyShort :label=second_pred :proba=second_proba :number_fa=2 ></FallacyShort>
         </div>
         <div class="col-8 offset-2 fallacy-list" v-if="list.length >0">
           <div class="heading">
@@ -36,8 +37,8 @@
           </div>
           <div class="table" v-for="(value, key) in list">
             <div class="col-6">{{value.sentence}}</div>
-            <div class="col-3">{{value.label}}</div>
-            <div class="col-3">{{value.proba}}</div>
+            <div class="col-3">{{value.first_label}}</div>
+            <div class="col-3">{{value.first_proba}}</div>
           </div>
         </div>
       </div>
@@ -53,8 +54,12 @@ axios.defaults.withCredentials = true;  // Ensure cookies are sent with requests
 export default {
   data () {
     return {
-      ordinal_label: null,
-      fallacy_label: null,
+      first_pred: null,
+      first_label: null,
+      first_proba: null,
+      second_pred: null,
+      second_label: null,
+      second_proba: null,
       sentence : '',
       sentence_to_predict : null,
       data: '',
@@ -82,8 +87,12 @@ export default {
       axios({ method: 'GET', url: 'http://localhost:5000/predict' }).then(
         result => {
           console.log("get Prediction:", result.data)
-          this.ordinal_label = result.data.result
-          this.fallacy_label = result.data.fallacy_label
+          this.first_pred = result.data.first_pred
+          this.first_label = result.data.first_label
+          this.first_proba = result.data.first_proba
+          this.second_pred = result.data.second_pred
+          this.second_label = result.data.second_label
+          this.second_proba = result.data.second_proba
         },
         error => {
           console.error(error)
@@ -95,10 +104,13 @@ export default {
         console.log('found local storage:', this.data)
         this.list = JSON.parse(this.data)
       } 
+      console.log('JSONdata', JSONdata)
       let newEntry = {
         'sentence': this.sentence,
-        'label': JSONdata.fallacy,
-        'proba': "tbd"
+        'first_label': JSONdata.first_label,
+        'first_proba': JSONdata.first_proba,
+        'second_label': JSONdata.second_label,
+        'second_proba': JSONdata.second_proba,
       }
       this.list.push(newEntry)
       localStorage.setItem('FallacyList', JSON.stringify(this.list))
@@ -110,7 +122,6 @@ export default {
       // this.setFallacyToLocalStorage(this.fallacy)
       axios.post('http://localhost:5000/predict',
         { txt: this.sentence }, 
-        // { withCredentials: true }
       )
       .then(res => {
         this.getPrediction()
