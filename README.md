@@ -40,7 +40,7 @@ Categories used for training:
 |Appeal to Authority | This fallacy occurs when an argument relies on the opinion or endorsement of an authority figure who may not have relevant expertise or whose expertise is questionable.| 
 | Appeal to Emotion | This fallacy occurs when an emotion is used to support an argument, such as pity, fear, anger, etc..  |
 | Faulty Generalization  | This fallacy occurs when an argument assumes something is true for a large population without having a large enough sample. A kind of overgeneralization. | 
-| False Dilemma | This fallacy occurs when only two options are presented in an argument, even though more options may exist. A case of “either this or that.|
+| False Dilemma | This fallacy occurs when only two options are presented in an argument, even though more options may exist. A case of "either this or that".|
 |None | There are no fallacies in the text.|
 
 <br>
@@ -48,22 +48,41 @@ Categories used for training:
 *Please note*: The definitions of the fallacies were taken from the research papers cited above or adjusted by us as needed.
 
 
-## NLP Model
+## NLP Models
+<br>
+Baseline Models
 
-## Model Experiment Tracker
+- Random
+- Logistic Regression
+- Support Vector Machine (SVM) 
 
-| # | Model Variant         | Class Weights | Epochs | LR     | Macro F1 | Test Accuracy | Notes                        |
-|---|------------------------|---------------|--------|--------|----------|----------------|------------------------------|
-| 1 | `distilbert-base`      | ❌ No          | 3      | 3e-5   | 0.65     | 0.74           |                     |
-| 2 | `distilbert-base`      | ✅ Yes         | 4      | 5e-5   | 0.63     | 0.70           | Weighted loss + tuning       |
-| 3 | `roberta-base`         | ✅ Yes (?)         | 3      | TBD   | TBD      | TBD            | To be trained                |
-| 4 | `q3fer-fallacy-model`  | ❌ No          | 3      | 3e-5      | 0.68      | 0.74            | Pretrained on similar task   |
-| 5 | ... | ...         | -      | -      | TBD      | TBD            | ...  |
+<br>
+Zero-Shot Models
+
+- facebook/bart-large-mnli 
+- Llama
+- DeepSeek
+
+<br>
+Pre-Trained Models
+
+- DistilBERT
+- microsoft/deberta-v3-small
+- q3fer/distilbert-base-fallacy-classification
+
+
+
+
+
+## Model Evaluation
+
+| Model        | Macro F1 | Brier Score | 
+|------------|----------|--------|
 
 
 ## Web Application
 
-...
+The Web App has been build using Flask and Vue.js. It only runs locally at the moment.
 
 ## Run
 
