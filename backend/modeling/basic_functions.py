@@ -39,7 +39,7 @@ def tokenize(texts, model_path):
     logger.info('create tokenizer & load model')
     # tokenization after train test split to prevent data leakage
     #added use_fast=False to prevent tokenization error (might happen when using fast tokenization)
-    tokenizer = AutoTokenizer.from_pretrained(model_path, use_fast=False)
+    tokenizer = AutoTokenizer.from_pretrained(model_path)
     return tokenizer(
         texts,
         padding="max_length", #ensures that all tokenized sequences are padded to the same length, padding adds special tokens to shorter sequeces so they match the maximum length
