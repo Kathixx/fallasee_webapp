@@ -41,6 +41,9 @@ h4{
   font-size: 16px;
 }
 
+.bold {
+  font-family: 'Montserrat-Bold';
+}
 /* ******** NAVIGATION ******** */
 nav{
   display: flex;
@@ -145,4 +148,23 @@ button:hover{
 
 .fallacy-list .table.header{
   font-family: 'Montserrat-Bold';
+}
+
+.row.fallacy-short{
+  margin-bottom: 5rem;
+}
+
+.fallacy-short h4{
+  font-family: 'Montserrat-Regular';
+  text-transform: uppercase;
+}
+
+.fallacy-short a{
+  text-decoration: underline;
+  color: var(--black);
+}
+
+.fallacy-short-bottom{
+  display: flex;
+  justify-content: space-between;
 }

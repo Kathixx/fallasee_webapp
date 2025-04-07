@@ -3,19 +3,27 @@ import data from '../assets/definitions.json'
 import { defineProps, ref, watch, onMounted } from 'vue'
 
 const props = defineProps({
-    label: Number
+    label: Number,
+    proba : Number,
+    number_fa: Number
 })
 
 const definition = ref(null)
 const title = ref(null)
+const probability = ref(null)
+const number_fa = ref(null)
 
-function getDef(label) {
-    console.log('getDef!')
+function getDef(label, proba, number) {
+    console.log('getDef!', label, proba, number)
     data.definitions.forEach((child) => {
         const id = child.id
         if (id === label) {
             definition.value = child.explanation
             title.value = child.fallacy
+            let proba_hundred = proba * 100
+            let proba_string = proba_hundred.toFixed(2) + ' %'
+            probability.value = proba_string
+            number_fa.value = number
         }
     })
 }
@@ -23,27 +31,34 @@ function getDef(label) {
 watch(
     () => props.label, 
     (newLabel) => {
-        getDef(newLabel) 
+        getDef(newLabel, props.proba, props.number_fa) 
+        console.log('watch:', props.label, props.proba, props.number_fa)
     },
     { immediate: true } 
 )
 
 onMounted(() => {
-    getDef(props.label) 
+    getDef(props.label, props.proba, props.number_fa)
+    console.log('mounted:', props.label, props.proba, props.number_fa)
 })
 
 </script>
 
 <template>
-    <div class="row">
+    <div class="row fallacy-short">
         <div class="col-2">
             <div class="symbol"></div>
         </div>
         <div class="col-10">
+            <h4>0{{number_fa}} prediction</h4>
             <h2>{{title}}</h2>
             <p>{{ definition }}</p>
-            <RouterLink to="/logical_fallacies">More about fallacies</RouterLink>
+            <div class ="fallacy-short-bottom">
+                <RouterLink to="/">More about fallacies</RouterLink>
+                <p class="bold">Probability: {{probability}}</p>
+            </div>
         </div>
+        
     </div>
 </template>
 
