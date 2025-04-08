@@ -34,6 +34,8 @@ import config
 from logging import getLogger
 logger = getLogger(__name__)
 
+import nltk
+
 
 def tokenize(texts, model_path):
     logger.info('create tokenizer & load model')
@@ -202,4 +204,31 @@ def get_eval_metrics(output, le):
     print("Multiclass Brier score:", brier_score)
 
     return classification_report_dict, brier_score
+
+#functions for baseline models
+
+def get_preprocess_data(data_path):
+    df = pd.read_csv(data_path, index_col=0)
+
+    # Change text to lower cases
+    df['text'] = df['text'].apply(lambda x: x.lower())
+    return df
+
+def lemmatize_text(text):
+    lemmatize = nltk.WordNetLemmatizer()
+    return ' '.join([lemmatize.lemmatize(word) for word in text.split()])
+
+def get_lemmatized_data(df):
+    df['text'] = df['text'].apply(lemmatize_text)
+    return df
+
+def get_metrics(y_true, y_pred):
+    logger.info('classification_report')
+    classification_report_dict = classification_report(y_true, y_pred, output_dict=True)
+    print(classification_report(y_true, y_pred))
+
+    logger.info('confusion_matrix')
+    print(confusion_matrix(y_true, y_pred))
+
+    return classification_report_dict 
   
