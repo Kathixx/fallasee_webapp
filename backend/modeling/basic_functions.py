@@ -192,7 +192,18 @@ def get_eval_metrics(output, le):
     print(classification_report(y_true, y_pred, target_names=le.classes_))
 
     logger.info('confusion_matrix')
-    print(confusion_matrix(y_true, y_pred))
+    cm = (confusion_matrix(y_true, y_pred))
+    print(cm)
+
+    labels = sorted(set(y_true) | set(y_pred))
+
+    logger.info('heatmap')
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', xticklabels=le.classes_, yticklabels=le.classes_)
+    plt.title("Confusion Matrix Heatmap")
+    plt.xlabel("Predicted Labels")
+    plt.ylabel("True Labels")
+    plt.show()
 
     logger.info('brier score')
     # 1. One-hot encode the true labels (y_test)
@@ -228,7 +239,18 @@ def get_metrics(y_true, y_pred):
     print(classification_report(y_true, y_pred))
 
     logger.info('confusion_matrix')
-    print(confusion_matrix(y_true, y_pred))
+    cm = (confusion_matrix(y_true, y_pred))
+    print(cm)
 
-    return classification_report_dict 
+    labels = sorted(set(y_true) | set(y_pred))
+
+    logger.info('heatmap')
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Greens', xticklabels=labels, yticklabels=labels)
+    plt.title("Confusion Matrix Heatmap")
+    plt.xlabel("Predicted Labels")
+    plt.ylabel("True Labels")
+    plt.show()
+
+    return classification_report_dict
   
