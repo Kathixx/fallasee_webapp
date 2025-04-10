@@ -75,10 +75,19 @@ def get_encode_tokenize_data(path, model_path):
     logger.info("Loading data...")
     df = pd.read_csv(path)
     y = df["logical_fallacies"]
-    X = df["text"]
+    X = df[["dataset","text"]]
     logger.info("Train test split, test-size 0.3")
     X_train, X_test, y_train, y_test = train_test_split(
     X, y, stratify = y, test_size=0.30, random_state=42)
+
+    logging.info('create encoded dataframes')
+    encoded_train_dataset = X_train.copy()
+    encoded_train_dataset['logical_fallacies']=y_train
+    X_train = X_train['text']
+
+    encoded_test_dataset = X_test.copy()
+    encoded_test_dataset['logical_fallacies']=y_test
+    X_test = X_test['text']
 
     logging.info('encode the label column')
     le = LabelEncoder()
@@ -94,7 +103,7 @@ def get_encode_tokenize_data(path, model_path):
     train_dataset = TextDataset(train_encodings, y_train)
     test_dataset = TextDataset(test_encodings, y_test)
 
-    return train_dataset, test_dataset, y_train, le
+    return train_dataset, test_dataset, encoded_train_dataset, encoded_test_dataset, le
 
 
 class WeightedLossTrainer(Trainer):
@@ -194,7 +203,7 @@ def get_eval_metrics(output, le):
 
     logger.info('confusion_matrix')
     cm = (confusion_matrix(y_true, y_pred))
-    print(cm)
+    # print(cm)
 
     labels = sorted(set(y_true) | set(y_pred))
 
@@ -216,6 +225,41 @@ def get_eval_metrics(output, le):
     print("Multiclass Brier score:", brier_score)
 
     return classification_report_dict, brier_score
+
+
+def get_error_analysis(output, encoded_df):
+    y_pred = np.argmax(output.predictions, axis=1)
+
+    y_true = output.label_ids
+
+    encoded_df = encoded_df.reset_index()
+
+    text = []
+    dataset  = []
+    true_label = []
+    pred_label = []
+
+    for i, (true, pred) in enumerate(zip(y_true, y_pred)):
+        if true != pred:
+            text.append(encoded_df['text'][i])
+            dataset.append(encoded_df['dataset'][i])
+            true_label.append(true)
+            pred_label.append(pred)
+            
+    df = pd.DataFrame({'text': text, 'dataset': dataset, 'true_label': true_label, 'pred_label': pred_label})
+    df['text_char_length'] = df['text'].map(lambda x : len(x))
+    df['text_word_length'] = df['text'].str.split().str.len()
+    return df
+
+def print_error_df (df):
+    for i, row in df.iterrows():
+        print(f"Example {i}:")
+        print(f"Text: {row['text']}")
+        print(f"True Label: {row['true_label']}, Predicted Label: {row['pred_label']}")
+
+
+
+
 
 #functions for baseline models
 
