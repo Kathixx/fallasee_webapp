@@ -148,7 +148,8 @@ def createTrainer(
             eval_strategy="epoch",
             logging_steps=50,
             save_strategy="epoch",
-            load_best_model_at_end=True
+            load_best_model_at_end=True,
+            report_to= []
         )
 
     computed_class_weights = compute_class_weight(class_weight='balanced', classes=np.unique(y_train), y=y_train)
