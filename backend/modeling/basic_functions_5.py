@@ -27,7 +27,7 @@ import os
 from torch.utils.data import Dataset, DataLoader
 import torch
 
-from transformers import TrainingArguments, Trainer, AutoModelForSequenceClassification, AutoModel, AutoTokenizer, AutoConfig
+from transformers import TrainingArguments, DistilBertTokenizer, Trainer, AutoModelForSequenceClassification, AutoModel, AutoTokenizer, AutoConfig
 
 import config 
 
@@ -41,7 +41,7 @@ def tokenize(texts, model_path):
     logger.info('create tokenizer & load model')
     # tokenization after train test split to prevent data leakage
     #added use_fast=False to prevent tokenization error (might happen when using fast tokenization)
-    tokenizer = AutoTokenizer.from_pretrained(model_path)
+    tokenizer = DistilBertTokenizer.from_pretrained(model_path)
     return tokenizer(
         texts,
         padding="max_length", #ensures that all tokenized sequences are padded to the same length, padding adds special tokens to shorter sequeces so they match the maximum length
@@ -75,12 +75,11 @@ def get_encode_tokenize_data(path, model_path):
     logger.info("Loading data...")
     df = pd.read_csv(path)
     y = df["logical_fallacies"]
-    X = df[["dataset","text"]]
+    X = df[["dataset", "text"]]
     logger.info("Train test split, test-size 0.3")
     X_train, X_test, y_train, y_test = train_test_split(
     X, y, stratify = y, test_size=0.30, random_state=42)
 
-    logging.info('create encoded dataframes')
     encoded_train_dataset = X_train.copy()
     encoded_train_dataset['logical_fallacies']=y_train
     X_train = X_train['text']
@@ -94,6 +93,7 @@ def get_encode_tokenize_data(path, model_path):
     y_train = le.fit_transform(y_train) 
     y_test = le.transform(y_test)
 
+    
 
     logging.info('tokenize')
     train_encodings = tokenize(X_train.to_list(), model_path)
@@ -203,7 +203,7 @@ def get_eval_metrics(output, le):
 
     logger.info('confusion_matrix')
     cm = (confusion_matrix(y_true, y_pred))
-    # print(cm)
+    print(cm)
 
     labels = sorted(set(y_true) | set(y_pred))
 
@@ -226,36 +226,18 @@ def get_eval_metrics(output, le):
 
     return classification_report_dict, brier_score
 
-
-def get_error_analysis(output, encoded_df):
+def get_error_analysis(output, dataset):
     y_pred = np.argmax(output.predictions, axis=1)
-
     y_true = output.label_ids
-
-    encoded_df = encoded_df.reset_index()
-
-    text = []
-    dataset  = []
-    true_label = []
-    pred_label = []
 
     for i, (true, pred) in enumerate(zip(y_true, y_pred)):
         if true != pred:
-            text.append(encoded_df['text'][i])
-            dataset.append(encoded_df['dataset'][i])
-            true_label.append(true)
-            pred_label.append(pred)
-            
-    df = pd.DataFrame({'text': text, 'dataset': dataset, 'true_label': true_label, 'pred_label': pred_label})
-    df['text_char_length'] = df['text'].map(lambda x : len(x))
-    df['text_word_length'] = df['text'].str.split().str.len()
-    return df
+            print(f"Example {i}:")
+            print(f"Text: {dataset['text'][i]}")
+            print(f"True Label: {true}, Predicted Label: {pred}")
 
-def print_error_df (df):
-    for i, row in df.iterrows():
-        print(f"Example {i}:")
-        print(f"Text: {row['text']}")
-        print(f"True Label: {row['true_label']}, Predicted Label: {row['pred_label']}")
+
+
 
 
 
