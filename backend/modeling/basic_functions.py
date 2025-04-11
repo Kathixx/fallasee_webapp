@@ -69,43 +69,46 @@ class TextDataset(Dataset):  # Inherits from PyTorch's Dataset class
         return len(self.labels)  # Total number of samples
 
 
-def get_encode_tokenize_data(path, model_path):
+def get_encode_tokenize_data(problem, path, model_path):
     logger = getLogger(__name__)
 
     logger.info("Loading data...")
     df = pd.read_csv(path)
-    y = df["logical_fallacies"]
-    X = df[["dataset","text"]]
+    
+    # Determine target column based on problem type
+    target_column = "two_class_target" if problem == "binary" else "logical_fallacies"
+    y = df[target_column]
+    
+    X = df[["dataset", "text"]]
     logger.info("Train test split, test-size 0.3")
     X_train, X_test, y_train, y_test = train_test_split(
-    X, y, stratify = y, test_size=0.30, random_state=42)
+        X, y, stratify=y, test_size=0.30, random_state=42
+    )
 
-    logging.info('create encoded dataframes')
+    logging.info("Create encoded dataframes")
     encoded_train_dataset = X_train.copy()
-    encoded_train_dataset['logical_fallacies']=y_train
-    X_train = X_train['text']
-
     encoded_test_dataset = X_test.copy()
-    encoded_test_dataset['logical_fallacies']=y_test
-    X_test = X_test['text']
+    
+    encoded_train_dataset[target_column] = y_train
+    encoded_test_dataset[target_column] = y_test
+    
+    X_train = X_train["text"]
+    X_test = X_test["text"]
 
-    logging.info('encode the label column')
+    logging.info("Encode the label column")
     le = LabelEncoder()
-    y_train = le.fit_transform(y_train) 
+    y_train = le.fit_transform(y_train)
     y_test = le.transform(y_test)
 
-
-    logging.info('tokenize')
+    logging.info("Tokenize")
     train_encodings = tokenize(X_train.to_list(), model_path)
     test_encodings = tokenize(X_test.to_list(), model_path)
 
-    logging.info('create TextDatasets (train & test)')
+    logging.info("Create TextDatasets (train & test)")
     train_dataset = TextDataset(train_encodings, y_train)
     test_dataset = TextDataset(test_encodings, y_test)
 
     return train_dataset, test_dataset, encoded_train_dataset, encoded_test_dataset, le
-
-
 class WeightedLossTrainer(Trainer):
     def __init__(self, class_weights=None, **kwargs):
         super().__init__(**kwargs)
