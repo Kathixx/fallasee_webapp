@@ -5,13 +5,11 @@ import { defineProps, ref, watch, onMounted } from 'vue'
 const props = defineProps({
     label: Number,
     proba : Number,
-    number_fa: Number
 })
 
 const definition = ref(null)
 const title = ref(null)
 const probability = ref(null)
-const number_fa = ref(null)
 const isAdHominem = ref(false)
 const isAuthority = ref(false)
 const isEmotion = ref(false)
@@ -37,7 +35,6 @@ function getDef(label, proba, number) {
             let proba_hundred = proba * 100
             let proba_string = proba_hundred.toFixed(2) + ' %'
             probability.value = proba_string
-            number_fa.value = number
             icon.value = child.image_url
         }
     })
@@ -71,16 +68,16 @@ function imageUrl() {
 watch(
     () => props.label, 
     (newLabel) => {
-        getDef(newLabel, props.proba, props.number_fa) 
-        console.log('watch:', props.label, props.proba, props.number_fa)
+        getDef(newLabel, props.proba) 
+        console.log('watch:', props.label, props.proba)
     },
     { immediate: true } 
 )
 
 
 onMounted(() => {
-    getDef(props.label, props.proba, props.number_fa)
-    console.log('mounted:', props.label, props.proba, props.number_fa)
+    getDef(props.label, props.proba)
+    console.log('mounted:', props.label, props.proba)
 })
 
 </script>
@@ -93,7 +90,6 @@ onMounted(() => {
             </div>
         </div>
         <div class="col-10">
-            <h4>0{{number_fa}} prediction</h4>
             <h2>{{title}}</h2>
             <p>{{ definition }}</p>
             <div class ="fallacy-short-bottom">
