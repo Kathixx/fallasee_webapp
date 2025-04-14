@@ -11,7 +11,7 @@ const router = createRouter({
       component: DetectorView,
     },
     {
-      path: '/',
+      path: '/logical-fallacies',
       name: 'fallacies',
       component: FallacyView,
     },

@@ -1,31 +1,16 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS, cross_origin
-import mlflow.sklearn
 from flask import session
 from datetime import timedelta
+
+import numpy as np
+import torch
 import mlflow.pytorch
 
-import numpy as np
+from modeling.basic_functions import (
+    tokenize,
+)
 
-
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-from sklearn.model_selection import train_test_split
-from mlflow.sklearn import save_model
-
-from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
-from sklearn.preprocessing import LabelEncoder
-
-import sentencepiece
-import os
-
-from torch.utils.data import Dataset, DataLoader
-import torch
-
-from transformers import TrainingArguments, Trainer, AutoModelForSequenceClassification, AutoModel, AutoTokenizer, AutoConfig
- 
 
 # SECRET KEY
 # TODO: SAFE IN ENVIRONMENT VARIABLE
@@ -53,16 +38,9 @@ CORS(app, resources={
 })
 
 
-tokenizer = AutoTokenizer.from_pretrained('microsoft/deberta-v3-base', use_fast=False)
-
-def tokenize(texts):
-    return tokenizer(
-        texts,
-        padding="max_length", #ensures that all tokenized sequences are padded to the same length, padding adds special tokens to shorter sequeces so they match the maximum length
-        truncation=True, #if sequence exceeds max, it will be trucated
-        max_length=512, #for most transformer models, 512 is a common limit for maximum length
-        return_tensors="pt" #converts the output to pytorch tensors
-    )
+def get_tokenized_text(txt):
+    x_tokenized = tokenize(txt, "distilbert-base-uncased")
+    return x_tokenized
 
 def predict(model, encodings, batch_size=8):
     # Set the model to evaluation mode
@@ -77,8 +55,8 @@ def predict(model, encodings, batch_size=8):
     for i in range(0, len(encodings["input_ids"]), batch_size):
         with torch.no_grad():
             batch = {
-                "input_ids": encodings["input_ids"][i:i+batch_size].to(device),
-                "attention_mask": encodings["attention_mask"][i:i+batch_size].to(device)
+                key: val[i:i+batch_size].to(device) 
+                for key, val in encodings.items()
             }
             outputs = model(**batch)
             probs = torch.softmax(outputs.logits, dim=-1).cpu().numpy()
@@ -117,10 +95,6 @@ def get_second_prediction(proba):
     proba_int = float(proba[0])
     return pred_int, proba_int
 
-@app.route("/")
-def hello():
-    return "Hello from Flask!"
-
 @app.after_request
 def after_request(response):
     # Add CORS headers for every response
@@ -144,7 +118,6 @@ def get_result():
     second_pred = session.get('second_pred', 'no data found')
     second_proba = session.get('second_proba', 'no data found')   
     second_label = session.get('second_label', 'no data found') 
-    print('session result:', session)
     session.clear()
     return jsonify({
         'first_pred': first_pred, 
@@ -159,14 +132,14 @@ def get_result():
 @app.route('/predict', methods=['POST'])
 @cross_origin(origin='http://localhost:5173')
 def input_predict_text():
-    #path to the classification model
-    # classifier = TextClassifier.load_from_file('models/best-model.pt')
-    model = mlflow.sklearn.load_model('models/LLM_deberta_v3_small')
-    # model = mlflow.pytorch.load_model("../models/distilbert_finetuned_1/pytorch_model")
+    model = mlflow.pytorch.load_model('./models/distilbert_finetuned_1/pytorch_model')
+
     #get input
     txt = request.get_json()['txt']
-    encoded_txt = tokenizer(txt, return_tensors='pt')
-    probabilities = predict(model, encoded_txt)
+    tokenized_txt = get_tokenized_text(txt)
+    # encoded_txt = tokenizer(txt, return_tensors='pt')
+    probabilities = predict(model, tokenized_txt)
+    print('All probabilites:', probabilities)
     first_pred, first_proba = get_first_prediction(probabilities)
     second_pred, second_proba = get_second_prediction(probabilities)
     first_label = get_label(first_pred)
