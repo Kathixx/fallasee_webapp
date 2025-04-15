@@ -27,34 +27,113 @@
         {
             "id": 4,
             "fallacy": "No Fallacy",
-            "explanation": "Explanation tbd",
+            "explanation": "No fallacy has been detected by the AI. However, the AI can make mistakes. Also, there are much more fallacies than the five fallacies the AI is trained on, e.g, Strawman, Cherry Picking and Red Herring.",
             "image_url":"../src/assets/icons/none.png"
         },
         {
             "id": 5,
             "fallacy": "Slippery Slope",
-            "explanation": "Explanation tbd",
+            "explanation": "This fallacy occurs when someone argues that a event will trigger a series of events that lead to an extreme outcome without demonstrating any causal connections between the events.",
             "image_url":"../src/assets/icons/slope.png"
         },
         {
             "id": 6,
             "fallacy": "Need more context",
-            "explanation": "Explanation tbd",
+            "explanation": "The AI could not make any reliable predictions based on your input text. Please try to adapt your text by adjusting the total number of words used or the meaning of your text.",
             "image_url":"../src/assets/icons/context.png"
         }
     ],
     "game": [
         {
-            "example": "Bei so vielen Schreibfehlern in deinem Kommentar ist der Rest sicher auch falsch.",
-            "label": "Ad Hominem"
+            "example": "With so many spelling mistakes in your comment, I'm sure the rest is wrong too.",
+            "label": "adHominem"
         },
         {
+            "example": "This new diet must be effective - a famous actor said it worked for him.",
+            "label": "authority"
+        },
+        {
+            "example": "If we don't act now, our children will grow up in a world without hope.",
+            "label": "emotion"
+        },
+        {
+            "example": "If you don’t take honors courses, you won’t get into a good college.",
+            "label": "slope"
+        },
+        {
+            "example": "Elon Musk said it’s a good investment, so we should all invest.",
+            "label": "authority"
+        }
+          
+    ],
+    "more": [
+        {
             "example": "Either you buy me this new book, or you decide that reading is not important at all.",
-            "label": "False Dilemma"
+            "label": "dilemma"
         },
         {
             "example": "Person A: I think we should lower the legal drinking age. Person B: No, if we do that, we’ll have ten-year-olds getting drunk in bars!",
-            "label": ""
+            "label": "slope"
+        },
+        {
+            "example": "A famous actor said this supplement works, so it must be effective.",
+            "label": "authority"
+        },
+        {
+            "example": "Elon Musk said it’s a good investment, so we should all invest.",
+            "label": "authority"
+        },
+        {
+            "example": "This doctor on TV recommends this diet, so it's the best one.",
+            "label": "authority"
+        },
+        {
+            "example": "My professor said climate change isn’t real, so I don’t believe it is.",
+            "label": "authority"
+        },
+        {
+            "example": "The CEO supports the new policy, so it has to be the right decision.",
+            "label": "authority"
+        },
+        {
+            "example": "If we allow students to redo one test, soon they’ll expect to redo everything.",
+            "label": "slope"
+        },
+        {
+            "example": "Legalizing marijuana will lead to legalizing all drugs.",
+            "label": "slope"
+        },
+        {
+            "example": "If we allow remote work, no one will ever come to the office again.",
+            "label": "slope"
+        },
+        {
+            "example": "Today you skip one workout, tomorrow you’re completely out of shape.",
+            "label": "slope"
+        },
+        {
+            "example": "What would she know about relationships? She’s been divorced twice.",
+            "label": "adHominem"
+        },
+        {
+            "example": "That idea is ridiculous, just like everything else you say.",
+            "label": "adHominem"
+        },
+        {
+            "example": "You’re too young to understand anything about the real world.",
+            "label": "adHominem"
+        },
+        {
+            "example": "Increasing green spaces in urban areas can improve mental health.",
+            "label": "none"
+        },
+        {
+            "example": "The data from last quarter supports the need for a budget adjustment.",
+            "label": "none"
+        },
+        {
+            "example": "More frequent public transport reduces traffic congestion.",
+            "label": "none"
         }
     ]
 }

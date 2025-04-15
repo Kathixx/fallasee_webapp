@@ -13,7 +13,7 @@ import { RouterLink, RouterView } from 'vue-router'
         <nav>
           <RouterLink to="/">Detection</RouterLink>
           <RouterLink to="/logical-fallacies">Fallacies</RouterLink>
-          <!-- <RouterLink to="/">About</RouterLink> -->
+          <RouterLink to="/game">Game</RouterLink>
       </nav>
       </div>
       

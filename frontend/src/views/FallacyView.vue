@@ -28,7 +28,7 @@
               <h2>Ad Hominem</h2>
             </button>
           </h2>
-          <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div id="collapseOne" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
             <div class="accordion-body">
               <p>They attack the other person (their appearance, their gender, or even something made-up) rather than addressing the argument itself. Calling people names or negative adjectives is common in this case</p>
               <p class="firstSpeaker">You:<br>“We should listen to scientists when it comes to climate change.”</p>
