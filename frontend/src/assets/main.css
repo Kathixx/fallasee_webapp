@@ -93,6 +93,14 @@ textarea::placeholder{
   padding-left: 10px;
 }
 
+.help{
+  font-style: italic;
+}
+
+.is-danger{
+  color: red;
+}
+
 .button  {
   display: flex;
   justify-content: end;

@@ -7,7 +7,9 @@ import FallacyShort from '../components/FallacyShort.vue'
     <div class="row" id="detector">
       <div class="col-8 offset-2">
         <p>FallaSee can detect logical fallacies in a sentence or argument. Just write your sentence or argument in the field below.</p>
-        <textarea v-model="sentence" placeholder="Type your sentence here (max. 200 words)" ></textarea>
+        <textarea v-model="sentence" @input="validateWordCount" placeholder="Type your sentence." ></textarea>
+        <p :class="{help: true, 'is-danger': remaining==0}">max characters {{instruction}}</p>
+        <!-- <p>{{ wordCount}} words</p> -->
       </div>
       <div class="col-8 offset-2 button">
         <button @click="pushFallacy(sentence)">
@@ -73,6 +75,8 @@ export default {
       // second_label: null,
       // second_proba: null,
       // second_confidence : null,
+      minChar: 1,
+      maxChar: 5,
       sentence : '',
       sentence_to_predict : null,
       data: '',
@@ -84,7 +88,27 @@ export default {
   created () {
     this.getLocalStorage()
   },
+  computed: {
+    wordCount(){
+      return this.sentence.trim().split(/\s+/).filter(word => word.length > 0).length;
+    },
+    instruction() {  
+      return this.count +'|'+ this.maxChar
+        // return this.sentence==''?
+        //   'limit: '+this.maxChar+' characters':
+        //   'remaining '+this.remaining+' characters';      
+    },
+    remaining() {
+      return this.maxChar-this.sentence.length;
+    },
+    count(){
+      return this.sentence==''? 0: this.sentence.length
+    }
+  },
   methods: {
+    validateWordCount() {
+        this.sentence = this.sentence.substr(0, this.maxChar)
+    },
     getLocalStorage(){
       if (localStorage.getItem("FallacyList") != null) {
         this.data = localStorage.getItem('FallacyList')
