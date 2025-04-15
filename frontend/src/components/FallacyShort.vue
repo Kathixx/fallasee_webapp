@@ -34,7 +34,7 @@ function getDef(label, proba, conf) {
         const id = child.id
         if (id === label) {
             definition.value = child.explanation
-            if (conf != null) {confidence.value = conf}
+            confidence.value = conf
             console.log("get icon:", child.image_url)
             title.value = child.fallacy
             let proba_hundred = proba * 100
@@ -64,6 +64,8 @@ function getDef(label, proba, conf) {
     if (label == 6) {
         isNotConfident.value = true
     }
+    console.log('isNotConfidence: ', isNotConfident.value, 'confidence: ', confidence.value, 'isNone: ', isNone.value)
+
 }
 
 function imageUrl() {
@@ -99,9 +101,9 @@ onMounted(() => {
         </div>
         <div class="col-10">
             <h2>{{title}}</h2>
-            <p v-if="!isNotConfident && confidence && !isNone">I'm <span class="bold">{{ confidence }}</span>, that in your sentence is the fallacy: {{title}}.</p>
-            <p v-if="!isNotConfident && confidence && isNone">I'm <span class="bold">{{ confidence }}</span>, that in your sentence is no fallacy.</p>
-            <p v-if = "!confidence">There might be a chance that your text also contains the fallacy {{ title }}.</p>
+            <p v-if="!isNotConfident && confidence != 'chance' && !isNone">I'm <span class="bold">{{ confidence }}</span> in your sentence is the fallacy: {{title}}.</p>
+            <p v-if="!isNotConfident && confidence != 'chance' && isNone">I'm <span class="bold">{{ confidence }}</span> in your sentence is no fallacy.</p>
+            <p v-if = "confidence === 'chance'">There might be a chance that your text also contains the fallacy {{ title }}.</p>
             <p>{{ definition }}</p>
             <div class ="fallacy-short-bottom" v-if="!isNotConfident">
                 <RouterLink to="/logical-fallacies">More about fallacies</RouterLink>
@@ -119,94 +121,5 @@ onMounted(() => {
 
 
 <script>
-// import data from '../assets/definitions.json'
-
-// export default {
-//     props: ['label', 'proba', 'number_fa'],
-//     setup(props) {
-//         // setup() receives props as the first argument.
-//         console.log(props.label)
-//         onMounted(()=> {
-//             this.getDef(props.label, props.proba, props.number_fa)
-//             console.log('mounted:', label, proba, number_fa)
-//         })
-//     },
-//     data() {
-//         return{
-//         definition:null,
-//         title: null,
-//         icon: null,
-//         probability: null,
-//         number: null
-//         }
-//     },
-//     // props: {
-//     //     label: {
-//     //     type: Number,
-//     //     required: true
-//     //     },
-//     //     proba: {
-//     //         type: Number,
-//     //         required: true
-//     //     },
-//     //     number_fa: {
-//     //         type: Number,
-//     //         required: true
-//     //     }
-//     // },
-//     watch: {
-//         label(newLabel, oldLabel) {
-//             getDef(newLabel, props.proba, props.number_fa) 
-//             console.log('watch:', props.label, props.proba, props.number_fa)
-//         }
-//     },  
-//     methods: {
-//         getDef(label, proba, number) {
-//             console.log('getDef!', label, proba, number)
-//             data.definitions.forEach((child) => {
-//                 let id = child.id
-//                 if (id === label) {
-//                     this.definition = child.explanation
-//                     console.log("get icon:", child.image_url)
-//                     this.title = child.fallacy
-//                     let proba_hundred = proba * 100
-//                     let proba_string = proba_hundred.toFixed(2) + ' %'
-//                     this.probability = proba_string
-//                     this.number = number
-//                     this.icon = child.image_url
-//                 }
-//             })
-//         },
-//         imageUrl(){
-//             return new URL(`../assets/images/${this.icon}`, import.meta.url).href;
-//         }
-//     },
-//     computed() {
-//         this.imageUrl()
-//     }
-// }
-
-// export default {
-//   data() {
-//     return{
-//       definition:null,
-//       title: null
-//     }
-//   },
-//   methods: {
-//     getDef(label) {
-//         data.definitions.forEach((child)=>{
-//             const id = child.id
-//             if(id == label){
-//                 this.definition = child.explanation
-//                 this.title = child.fallacy
-//             }
-//         })
-//     }
-//   },
-//   mounted() {
-//     this.getDef(props.label)
-//   }
-// }
 
 </script>

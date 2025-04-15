@@ -7,8 +7,8 @@ import FallacyShort from '../components/FallacyShort.vue'
     <div class="row" id="detector">
       <div class="col-8 offset-2">
         <p>FallaSee can detect logical fallacies in a sentence or argument. Just write your sentence or argument in the field below.</p>
-        <textarea v-model="sentence" @input="validateWordCount" placeholder="Type your sentence." ></textarea>
-        <p :class="{help: true, 'is-danger': remaining==0}">max characters {{instruction}}</p>
+        <textarea v-model="sentence" @input="countChar" placeholder="Type your sentence here." ></textarea>
+        <p :class="{help: true, 'is-danger': remaining==0}"> {{instruction}} max characters</p>
         <!-- <p>{{ wordCount}} words</p> -->
       </div>
       <div class="col-8 offset-2 button">
@@ -49,7 +49,7 @@ import FallacyShort from '../components/FallacyShort.vue'
           </div>
           <div class="table" v-for="(value, key) in list">
             <div class="col-6">{{value.sentence}}</div>
-            <div class="col-2">{{value.label}}</div>
+            <div class="col-2 listFallacy" :class="value.fallacy"><span>{{value.label}}</span></div>
             <div class="col-2">{{value.confidence}}</div>
             <div class="col-2">{{value.proba}}</div>
           </div>
@@ -67,16 +67,13 @@ axios.defaults.withCredentials = true;  // Ensure cookies are sent with requests
 export default {
   data () {
     return {
-      // first_pred: null,
-      // first_label: null,
-      // first_proba: null,
-      // first_confidence: null,
-      // second_pred: null,
-      // second_label: null,
-      // second_proba: null,
-      // second_confidence : null,
-      minChar: 1,
-      maxChar: 5,
+      isAdHominem : false,
+      isAuthority : false,
+      isEmotion : false,
+      isDilemma : false,
+      isSlope : false,
+      isNone : false,
+      maxChar: 200,
       sentence : '',
       sentence_to_predict : null,
       data: '',
@@ -89,14 +86,8 @@ export default {
     this.getLocalStorage()
   },
   computed: {
-    wordCount(){
-      return this.sentence.trim().split(/\s+/).filter(word => word.length > 0).length;
-    },
     instruction() {  
-      return this.count +'|'+ this.maxChar
-        // return this.sentence==''?
-        //   'limit: '+this.maxChar+' characters':
-        //   'remaining '+this.remaining+' characters';      
+      return this.count +' | '+ this.maxChar
     },
     remaining() {
       return this.maxChar-this.sentence.length;
@@ -106,7 +97,7 @@ export default {
     }
   },
   methods: {
-    validateWordCount() {
+    countChar() {
         this.sentence = this.sentence.substr(0, this.maxChar)
     },
     getLocalStorage(){
@@ -150,7 +141,7 @@ export default {
             currentPreds.splice(position, 1)
             let max2 =  Math.max.apply(null, currentPreds)
             let position2 = predictions.indexOf(max2)
-            let item2 = {'fallacy': position2, 'proba':max2, 'confidence': null}
+            let item2 = {'fallacy': position2, 'proba':max2, 'confidence': 'chance'}
             this.resultList.push(item2)
             console.log('show more fallacies:', max, max2)
           }
@@ -163,23 +154,6 @@ export default {
           this.predictionReady = true
           if (max > 0.5) {this.setFallacyToLocalStorage(position, max, this.sentence)}
           this.sentence = ''
-          // // this.first_pred = result.data.first_pred
-          // // this.first_label = result.data.first_label
-          // // this.first_proba = result.data.first_proba
-          // // this.second_pred = result.data.second_pred
-          // // this.second_label = result.data.second_label
-          // // this.second_proba = result.data.second_proba
-          // this.first_pred = 'fd'
-          // this.first_label = 'fd'
-          // this.first_proba = 0
-          // this.second_pred = 'fd'
-          // this.second_label = 'fd'
-          // this.second_proba = 0
-        // },
-        // error => {
-        //   console.error(error)
-        // }
-      
     },
     calculate(proba) {
       let proba_hundred = proba * 100
@@ -192,18 +166,25 @@ export default {
       if(fallacy == 3) { return 'False Dilemma'}
       if(fallacy == 4) { return 'No Fallacy'}
       if(fallacy == 5) { return 'Slippery Slope'}},
+    getClass(fallacy) {
+      if(fallacy == 0) { return 'adHominem'}
+      if(fallacy == 1) { return 'authority'}
+      if(fallacy == 2) { return 'emotion'}
+      if(fallacy == 3) { return 'dilemma'}
+      if(fallacy == 4) { return 'none'}
+      if(fallacy == 5) { return 'slope'}},
     getConfidence(proba) {
       let confidence
       if (proba > 0.9){
-        confidence = 'very sure'
+        confidence = 'positive'
         return confidence
       }
       else if (proba > 0.7) {
-        confidence = 'sure'
+        confidence = 'very sure'
         return confidence
       }
       else if (proba > 0.5) {
-        confidence = 'pretty sure'
+        confidence = 'sure'
         return confidence
       }
       else {
@@ -220,6 +201,7 @@ export default {
       } 
       let newEntry = {
         'sentence': sentence,
+        'fallacy': this.getClass(fallacy),
         'label': this.getLabel(fallacy),
         'proba': this.calculate(proba),
         'confidence': this.getConfidence(proba),

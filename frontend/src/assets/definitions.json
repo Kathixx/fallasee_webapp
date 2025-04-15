@@ -27,19 +27,19 @@
         {
             "id": 4,
             "fallacy": "No Fallacy",
-            "explanation": "Explanation tbd",
+            "explanation": "No fallacy has been detected by the AI. However, the AI can make mistakes. Also, there are much more fallacies than the five fallacies the AI is trained on, e.g, Strawman, Cherry Picking and Red Herring.",
             "image_url":"../src/assets/icons/none.png"
         },
         {
             "id": 5,
             "fallacy": "Slippery Slope",
-            "explanation": "Explanation tbd",
+            "explanation": "This fallacy occurs when someone argues that a event will trigger a series of events that lead to an extreme outcome without demonstrating any causal connections between the events.",
             "image_url":"../src/assets/icons/slope.png"
         },
         {
             "id": 6,
             "fallacy": "Need more context",
-            "explanation": "Explanation tbd",
+            "explanation": "The AI could not make any reliable predictions based on your input text. Please try to adapt your text by adjusting the total number of words used or the meaning of your text.",
             "image_url":"../src/assets/icons/context.png"
         }
     ],

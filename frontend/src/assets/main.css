@@ -95,6 +95,7 @@ textarea::placeholder{
 
 .help{
   font-style: italic;
+  font-size: 14px;
 }
 
 .is-danger{
@@ -221,6 +222,29 @@ button:hover{
   font-family: 'Montserrat-Bold';
 }
 
+.fallacy-list .listFallacy span{
+  font-family: 'Montserrat-Bold';
+}
+
+.fallacy-list .listFallacy.adHominem span{
+  background-color: var(--violet)
+}
+.fallacy-list .listFallacy.authority span{
+  background-color: var(--rose);
+}
+.fallacy-list .listFallacy.emotion span{
+  background-color: var(--orange);
+}
+.fallacy-list .listFallacy.dilemma span{
+  background-color: var(--yellow);
+}
+.fallacy-list .listFallacy.slope span{
+  background-color: var(--blue);
+}
+.fallacy-list .listFallacy.none span{
+  background-color: var(--green);
+}
+
 
 /* ***** Fallacies ****** */
 
@@ -306,6 +330,9 @@ button:hover{
 }
 .symbol.slope{
   background-color: var(--blue);
+}
+.symbol.none{
+  background-color: var(--green);
 }
 .symbol.notConfident{
   background-color: var(--grey);
