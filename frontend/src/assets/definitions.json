@@ -2,39 +2,53 @@
     "definitions" :[
         {
             "id": 0,
-            "fallacy": "ad hominem",
+            "fallacy": "Ad Hominem",
             "explanation": "This fallacy occurs when the speaker is attacking the other person or some aspect of them rather than addressing the argument itself.",
             "image_url":"../src/assets/icons/ad_hominem.png"
         },
         {
             "id": 1,
-            "fallacy": "appeal to authority",
+            "fallacy": "Appeal To Authority",
             "explanation": "This fallacy occurs when an argument relies on the opinion or endorsement of an authority figure who may not have relevant expertise or whose expertise is questionable. When applicable, a scientific consensus is not an appeal to authority.",
             "image_url":"../src/assets/icons/authority.png"
         },
         {
             "id": 2,
-            "fallacy": "appeal to emotion",
+            "fallacy": "Appeal To Emotion",
             "explanation": "This fallacy occurs when emotion is used to support an argument, such as pity, fear, anger, etc.",
             "image_url":"../src/assets/icons/emotion.png"
         },
         {
             "id": 3,
-            "fallacy": "false dilemma",
+            "fallacy": "False Dilemma",
             "explanation": "This fallacy occurs when only two options are presented in an argument, even though more options may exist. A case of “either this or that”.",
             "image_url":"../src/assets/icons/dilemma.png"
         },
         {
             "id": 4,
-            "fallacy": "slippery slope",
-            "explanation": "Explanation tbd",
-            "image_url":"../src/assets/icons/slope.png"
-        },
-        {
-            "id": 5,
             "fallacy": "no fallacy",
             "explanation": "The AI didn't dedect any fallacies in this text. But beware, our AI can only recognize 5 logical fallacies. There are many more. AI can also make mistakes. Please check your text again!",
             "image_url":"../src/assets/icons/none.png"
+        },
+        {
+            "id": 5,
+            "fallacy": "Slippery Slope",
+            "explanation": "Explanation tbd",
+            "image_url":"../src/assets/icons/slope.png"
         }
-    ] 
+    ],
+    "game": [
+        {
+            "example": "Bei so vielen Schreibfehlern in deinem Kommentar ist der Rest sicher auch falsch.",
+            "label": "Ad Hominem"
+        },
+        {
+            "example": "Either you buy me this new book, or you decide that reading is not important at all.",
+            "label": "False Dilemma"
+        },
+        {
+            "example": "Person A: I think we should lower the legal drinking age. Person B: No, if we do that, we’ll have ten-year-olds getting drunk in bars!",
+            "label": ""
+        }
+    ]
 }

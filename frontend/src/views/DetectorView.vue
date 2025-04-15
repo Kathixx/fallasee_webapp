@@ -62,20 +62,19 @@ axios.defaults.withCredentials = true;  // Ensure cookies are sent with requests
 export default {
   data () {
     return {
-      first_pred: null,
-      first_label: null,
-      first_proba: null,
-      first_confidence: null,
-      second_pred: null,
-      second_label: null,
-      second_proba: null,
-      second_confidence : null,
+      // first_pred: null,
+      // first_label: null,
+      // first_proba: null,
+      // first_confidence: null,
+      // second_pred: null,
+      // second_label: null,
+      // second_proba: null,
+      // second_confidence : null,
       sentence : '',
       sentence_to_predict : null,
       data: '',
       resultList: [],
       list: [],
-      newEntry : {},
       predictionReady : false
     }
   },
@@ -157,8 +156,8 @@ export default {
       if(fallacy == 1) { return 'Appeal to Authority'}
       if(fallacy == 2) { return 'Appeal to Emotion'}
       if(fallacy == 3) { return 'False Dilemma'}
-      if(fallacy == 4) { return 'Slippery Slope'}
-      if(fallacy == 5) { return 'No Fallacy'}},
+      if(fallacy == 4) { return 'No Fallacy'}
+      if(fallacy == 5) { return 'Slippery Slope'}},
     getConfidence(proba) {
       let confidence
       if (proba > 0.9){

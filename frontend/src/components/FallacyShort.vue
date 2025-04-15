@@ -51,10 +51,10 @@ function getDef(label, proba, number) {
         isDilemma.value = true
     }
     if(label == 4) {
-        isSlope.value = true
+        isNone.value = true
     }
     if(label == 5) {
-        isNone.value = true
+        isSlope.value = true
     }
 }
 
