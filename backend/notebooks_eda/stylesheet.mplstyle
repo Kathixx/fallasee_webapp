@@ -1,13 +1,14 @@
 text.color : (0.2,0.2,0.2)
 
 font.family: Arial
+font.size: 11
 figure.facecolor: "#F7ECDB"
 
 
 # AXES
 axes.titlesize : 8
 axes.titlelocation: right
-axes.labelsize : 14
+axes.labelsize : 11
 axes.labelweight: 900
 axes.edgecolor : (0.2,0.2,0.2) 
 axes.labelcolor : (0.2,0.2,0.2)
