@@ -77,9 +77,9 @@ def get_label(label):
     if label == 3:
         return 'false dilemma'
     if label == 4:
-        return 'faulty generalization'
-    if label == 5:
         return 'none'
+    if label == 5:
+        return 'slippery slope'
 
 def get_first_prediction(proba):
     pred = np.argmax(proba, axis=1)
@@ -122,16 +122,16 @@ def get_result():
     authority = session.get('1_authority', 'no data found')
     emotion = session.get('2_emotion', 'no data found')
     dilemma = session.get('3_dilemma', 'no data found')
-    slope = session.get('4_slope', 'no data found')
-    none = session.get('5_none', 'no data found')
+    none = session.get('4_none', 'no data found')
+    slope = session.get('5_slope', 'no data found')
     session.clear()
     return jsonify({
         '0_ad_hominem': ad_hominem,
         '1_authority': authority,
         '2_emotion': emotion,
         '3_dilemma': dilemma,
-        '4_slope': slope,
-        '5_none': none
+        '4_none': none,
+        '5_slope': slope
         # 'first_pred': first_pred, 
         # 'first_label': first_label,
         # 'first_proba': first_proba,
@@ -165,8 +165,8 @@ def input_predict_text():
     session['1_authority'] = float(probabilities[0][1])
     session['2_emotion'] = float(probabilities[0][2])
     session['3_dilemma'] = float(probabilities[0][3])
-    session['4_slope'] = float(probabilities[0][4])
-    session['5_none'] = float(probabilities[0][5])
+    session['4_none'] = float(probabilities[0][4])
+    session['5_slope'] = float(probabilities[0][5])
     session.permanent = True
     session.modified = True  # Force session save
     # print('second:', second_pred, second_label, second_proba)
@@ -175,8 +175,8 @@ def input_predict_text():
         '1_authority': float(probabilities[0][1]),
         '2_emotion': float(probabilities[0][2]),
         '3_dilemma': float(probabilities[0][3]),
-        '4_slope': float(probabilities[0][4]),
-        '5_none': float(probabilities[0][5])
+        '4_none': float(probabilities[0][4]),
+        '5_slope': float(probabilities[0][5])
         # 'first_pred': first_pred, 
         # 'first_label': first_label,
         # 'first_proba': first_proba,

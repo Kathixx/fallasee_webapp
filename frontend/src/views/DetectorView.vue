@@ -22,8 +22,11 @@ import FallacyShort from '../components/FallacyShort.vue'
               <p>{{ sentence_to_predict }}</p>
             </div>
           </div>
-          <div class="result" v-if="predictionReady" v-for="(value, key) in resultList">
-            <FallacyShort :label=value.fallacy :proba=value.proba ></FallacyShort>
+          <div class="result" v-if="predictionReady">
+            <div v-for="(value, key) in resultList">
+              <FallacyShort :label=value.fallacy :proba=value.proba :confidence = value.confidence></FallacyShort>
+            </div>
+            <p><i>Be aware, our AI can only detect 5 logical fallacies. There are many more. AI can also make mistakes. Please check your text again!</i></p>
           </div>
           <div class="result" v-else>
             <h2>Loading ...</h2>
@@ -62,20 +65,19 @@ axios.defaults.withCredentials = true;  // Ensure cookies are sent with requests
 export default {
   data () {
     return {
-      first_pred: null,
-      first_label: null,
-      first_proba: null,
-      first_confidence: null,
-      second_pred: null,
-      second_label: null,
-      second_proba: null,
-      second_confidence : null,
+      // first_pred: null,
+      // first_label: null,
+      // first_proba: null,
+      // first_confidence: null,
+      // second_pred: null,
+      // second_label: null,
+      // second_proba: null,
+      // second_confidence : null,
       sentence : '',
       sentence_to_predict : null,
       data: '',
       resultList: [],
       list: [],
-      newEntry : {},
       predictionReady : false
     }
   },
@@ -102,33 +104,40 @@ export default {
       }
       return predictions
     },
-    async getPrediction () {
-      await axios.get('http://localhost:5000/predict').then(
-        result => {
-          console.log("get Prediction:", result.data)
+    getPrediction (data) {
+      // await axios.get('http://localhost:5000/predict').then(
+      //   result => {
+          console.log("get Prediction:", data)
           this.resultList = []
-          let predictions = this.setPredictionArray(result.data)
+          let predictions = this.setPredictionArray(data)
           let max = Math.max.apply(null, predictions)
           let position = predictions.indexOf(max)
           if (max >= 0.9) {
-            let item = {'fallacy': position, 'proba':max}
+            let confidence = this.getConfidence(max)
+            let item = {'fallacy': position, 'proba':max, 'confidence': confidence}
             this.resultList.push(item)
             console.log('show only one fallacy', max)
           }
-          else {
-            let item = {'fallacy': position, 'proba':max}
+          else if (max > 0.5) {
+            let confidence = this.getConfidence(max)
+            let item = {'fallacy': position, 'proba':max, 'confidence': confidence}
             this.resultList.push(item)
             let currentPreds = predictions
             currentPreds.splice(position, 1)
             let max2 =  Math.max.apply(null, currentPreds)
             let position2 = predictions.indexOf(max2)
-            let item2 = {'fallacy': position2, 'proba':max2}
+            let item2 = {'fallacy': position2, 'proba':max2, 'confidence': null}
             this.resultList.push(item2)
             console.log('show more fallacies:', max, max2)
           }
+          else {
+            let item = {'fallacy': 6, 'proba':0, 'confidence': ''}
+            this.resultList.push(item)
+            console.log('show no fallacy')
+          }
           console.log('resultList:', this.resultList)
           this.predictionReady = true
-          this.setFallacyToLocalStorage(position, max, this.sentence)
+          if (max > 0.5) {this.setFallacyToLocalStorage(position, max, this.sentence)}
           this.sentence = ''
           // // this.first_pred = result.data.first_pred
           // // this.first_label = result.data.first_label
@@ -142,11 +151,11 @@ export default {
           // this.second_pred = 'fd'
           // this.second_label = 'fd'
           // this.second_proba = 0
-        },
-        error => {
-          console.error(error)
-        }
-      )
+        // },
+        // error => {
+        //   console.error(error)
+        // }
+      
     },
     calculate(proba) {
       let proba_hundred = proba * 100
@@ -157,33 +166,24 @@ export default {
       if(fallacy == 1) { return 'Appeal to Authority'}
       if(fallacy == 2) { return 'Appeal to Emotion'}
       if(fallacy == 3) { return 'False Dilemma'}
-      if(fallacy == 4) { return 'Slippery Slope'}
-      if(fallacy == 5) { return 'No Fallacy'}},
+      if(fallacy == 4) { return 'No Fallacy'}
+      if(fallacy == 5) { return 'Slippery Slope'}},
     getConfidence(proba) {
       let confidence
       if (proba > 0.9){
-        confidence = 'pretty sure'
-        this.first_confidence = confidence
-        return confidence
-      }
-      else if (proba > 70) {
         confidence = 'very sure'
-        this.first_confidence = confidence
         return confidence
       }
-      else if (proba > 50) {
+      else if (proba > 0.7) {
         confidence = 'sure'
-        this.first_confidence = confidence
         return confidence
       }
-      else if (proba > 30 ) {
-        confidence = 'little sure'
-        this.first_confidence = confidence
+      else if (proba > 0.5) {
+        confidence = 'pretty sure'
         return confidence
       }
       else {
-        confidence = 'not sure'
-        this.first_confidence = confidence
+        confidence = 'need more context'
         return confidence
       }
       
@@ -214,7 +214,8 @@ export default {
         { txt: this.sentence }, 
       )
       .then(res => {
-        this.getPrediction()
+        console.log('res push fallacy', res.data)
+        this.getPrediction(res.data)
       })
       .catch(err => {
         console.log(err)

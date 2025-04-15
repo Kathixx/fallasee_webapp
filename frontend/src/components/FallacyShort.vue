@@ -5,10 +5,12 @@ import { defineProps, ref, watch, onMounted } from 'vue'
 const props = defineProps({
     label: Number,
     proba : Number,
+    confidence: String
 })
 
 const definition = ref(null)
 const title = ref(null)
+const confidence = ref(null)
 const probability = ref(null)
 const isAdHominem = ref(false)
 const isAuthority = ref(false)
@@ -17,19 +19,22 @@ const isDilemma = ref(false)
 const isSlope = ref(false)
 const isNone = ref(false)
 const icon = ref(null)
+const isNotConfident = ref(false)
 
-function getDef(label, proba, number) {
+function getDef(label, proba, conf) {
     isAdHominem.value = false
     isAuthority.value = false
     isEmotion.value = false
     isDilemma.value = false
     isSlope.value = false
     isNone.value = false
-    console.log('getDef!', label, proba, number)
+    isNotConfident.value = false
+    console.log('getDef!', label, proba, conf)
     data.definitions.forEach((child) => {
         const id = child.id
         if (id === label) {
             definition.value = child.explanation
+            if (conf != null) {confidence.value = conf}
             console.log("get icon:", child.image_url)
             title.value = child.fallacy
             let proba_hundred = proba * 100
@@ -51,10 +56,13 @@ function getDef(label, proba, number) {
         isDilemma.value = true
     }
     if(label == 4) {
-        isSlope.value = true
+        isNone.value = true
     }
     if(label == 5) {
-        isNone.value = true
+        isSlope.value = true
+    }
+    if (label == 6) {
+        isNotConfident.value = true
     }
 }
 
@@ -68,16 +76,16 @@ function imageUrl() {
 watch(
     () => props.label, 
     (newLabel) => {
-        getDef(newLabel, props.proba) 
-        console.log('watch:', props.label, props.proba)
+        getDef(newLabel, props.proba, props.confidence) 
+        console.log('watch:', props.label, props.proba, props.confidence)
     },
     { immediate: true } 
 )
 
 
 onMounted(() => {
-    getDef(props.label, props.proba)
-    console.log('mounted:', props.label, props.proba)
+    getDef(props.label, props.proba, props.confidence)
+    console.log('mounted:', props.label, props.proba, props.confidence)
 })
 
 </script>
@@ -85,14 +93,17 @@ onMounted(() => {
 <template>
     <div class="row fallacy-short">
         <div class="col-2">
-            <div class="symbol" :class="{'ad_hominem': isAdHominem, 'authority': isAuthority, 'emotion': isEmotion, 'dilemma': isDilemma, 'slope': isSlope, 'none' :isNone }">
+            <div class="symbol" :class="{'ad_hominem': isAdHominem, 'authority': isAuthority, 'emotion': isEmotion, 'dilemma': isDilemma, 'slope': isSlope, 'none' :isNone, 'notConfident': isNotConfident }">
                 <img :src="imageUrl()">
             </div>
         </div>
         <div class="col-10">
             <h2>{{title}}</h2>
+            <p v-if="!isNotConfident && confidence && !isNone">I'm <span class="bold">{{ confidence }}</span>, that in your sentence is the fallacy: {{title}}.</p>
+            <p v-if="!isNotConfident && confidence && isNone">I'm <span class="bold">{{ confidence }}</span>, that in your sentence is no fallacy.</p>
+            <p v-if = "!confidence">There might be a chance that your text also contains the fallacy {{ title }}.</p>
             <p>{{ definition }}</p>
-            <div class ="fallacy-short-bottom">
+            <div class ="fallacy-short-bottom" v-if="!isNotConfident">
                 <RouterLink to="/logical-fallacies">More about fallacies</RouterLink>
                 <p class="bold">Probability: {{probability}}</p>
             </div>
