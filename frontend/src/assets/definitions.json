@@ -26,8 +26,8 @@
         },
         {
             "id": 4,
-            "fallacy": "no fallacy",
-            "explanation": "The AI didn't dedect any fallacies in this text. But beware, our AI can only recognize 5 logical fallacies. There are many more. AI can also make mistakes. Please check your text again!",
+            "fallacy": "No Fallacy",
+            "explanation": "Explanation tbd",
             "image_url":"../src/assets/icons/none.png"
         },
         {
@@ -35,6 +35,12 @@
             "fallacy": "Slippery Slope",
             "explanation": "Explanation tbd",
             "image_url":"../src/assets/icons/slope.png"
+        },
+        {
+            "id": 6,
+            "fallacy": "Need more context",
+            "explanation": "Explanation tbd",
+            "image_url":"../src/assets/icons/context.png"
         }
     ],
     "game": [

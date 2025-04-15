@@ -299,6 +299,9 @@ button:hover{
 .symbol.slope{
   background-color: var(--blue);
 }
+.symbol.notConfident{
+  background-color: var(--grey);
+}
 
 .fallacies .accordion .accordion-button h2{
   font-family: 'Bright';
