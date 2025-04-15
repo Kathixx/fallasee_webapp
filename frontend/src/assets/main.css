@@ -215,6 +215,7 @@ button:hover{
   display: flex;
   justify-content: start;
   border-bottom: 3px solid var(--black);
+  padding-bottom: 10px;
 }
 
 
@@ -223,6 +224,11 @@ button:hover{
 }
 
 .fallacy-list .listFallacy span{
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  border-radius: 5px;
+  margin-right: 10px;
   font-family: 'Montserrat-Bold';
 }
 
@@ -357,3 +363,231 @@ button:hover{
 .motivation span {
   font-family: 'Montserrat-Regular'
 }
+
+/* ***** GAME ***** */
+.gameWrapper{
+  border: 3px solid black;
+  border-radius: 20px;
+  background-color: var(--beige);
+  height: 30vh;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-family: 'Montserrat-Bold';
+  text-align: center;
+}
+
+.gameButtons {
+  margin-top: 2em;
+}
+.gameButtons h3{
+  text-transform: none;
+  text-align: center;
+  margin: 1px 0px 2em 0px;
+}
+
+.gameButtons .buttonWrapper {
+  margin: 0;
+  padding-right: 15px;
+  padding-left: 0px;
+  height: 100px;
+  position: relative;
+}
+
+.gameButtons .buttonWrapper:last-of-type{
+  padding-right: 0px;
+}
+
+.gameButtons .buttonWrapper button{
+  margin: 5px;
+  height: 100%;
+  width: 100%;
+  border-radius: 20px;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+
+.buttonWrapper.adHominem button:hover{
+    -webkit-box-shadow: 0px 0px 10px 6px var(--violet);
+    -moz-box-shadow: 0px 0px 10px 6px var(--violet);
+    box-shadow: 0px 0px 10px 6px var(--violet);
+}
+
+
+.buttonWrapper.authority button:hover{
+    -webkit-box-shadow: 0px 0px 10px 6px var(--rose);
+    -moz-box-shadow: 0px 0px 10px 6px var(--rose);
+    box-shadow: 0px 0px 10px 6px var(--rose);
+}
+
+
+.buttonWrapper.emotion button:hover{
+    -webkit-box-shadow: 0px 0px 10px 6px var(--orange);
+    -moz-box-shadow: 0px 0px 10px 6px var(--orange);
+    box-shadow: 0px 0px 10px 6px var(--orange);
+}
+
+
+.buttonWrapper.dilemma button:hover{
+    -webkit-box-shadow: 0px 0px 10px 6px var(--yellow);
+    -moz-box-shadow: 0px 0px 10px 6px var(--yellow);
+    box-shadow: 0px 0px 10px 6px var(--yellow);
+}
+
+
+.buttonWrapper.slope button:hover{
+    -webkit-box-shadow: 0px 0px 10px 6px var(--blue);
+    -moz-box-shadow: 0px 0px 10px 6px var(--blue);
+    box-shadow: 0px 0px 10px 6px var(--blue);
+}
+
+.buttonWrapper.none button:hover{
+    -webkit-box-shadow: 0px 0px 10px 6px var(--green);
+    -moz-box-shadow: 0px 0px 10px 6px var(--green);
+    box-shadow: 0px 0px 10px 6px var(--green);
+}
+
+.buttonWrapper.adHominem button.disabled:hover, 
+  .buttonWrapper.authority button.disabled:hover, 
+  .buttonWrapper.emotion button.disabled:hover, 
+  .buttonWrapper.dilemma button.disabled:hover, 
+  .buttonWrapper.slope button.disabled:hover, 
+  .buttonWrapper.none button.disabled:hover{
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
+.buttonWrapper.adHominem button.right{
+  background-color: var(--violet)
+}
+.buttonWrapper.authority button.right{
+  background-color: var(--rose)
+}
+.buttonWrapper.emotion button.right{
+  background-color: var(--orange)
+}
+.buttonWrapper.dilemma button.right{
+  background-color: var(--yellow)
+}
+.buttonWrapper.slope button.right{
+  background-color: var(--blue)
+}
+.buttonWrapper.none button.right{
+  background-color: var(--green)
+}
+
+
+
+
+.gameButtons .buttonWrapper .choices{
+  position: absolute;
+  top: -10px;
+  right: 10px;
+}
+
+.gameButtons .buttonWrapper .choices span{
+  width: 50px;
+  height: 50px;
+  border-radius: 100%;
+  border: 3px solid var(--black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gameButtons .buttonWrapper .choices span p {
+  margin-bottom: 0px;
+}
+
+.buttonWrapper .choices .circleWrapper {
+  display: inline-block;
+  margin-left: 5px;
+}
+
+.buttonWrapper.adHominem .choices span.displayNone{
+  display: none;
+}
+
+.buttonWrapper.adHominem .choices span{
+  background-color: var(--violet)
+}
+
+
+.buttonWrapper.authority .choices span{
+  background-color: var(--rose)
+}
+
+
+.buttonWrapper.emotion .choices span{
+  background-color: var(--orange)
+}
+
+
+.buttonWrapper.dilemma .choices span{
+  background-color: var(--yellow)
+}
+
+
+.buttonWrapper.slope .choices span{
+  background-color: var(--blue)
+}
+
+.buttonWrapper.none .choices span{
+  background-color: var(--green)
+}
+
+.next {
+  margin-top: 2em;
+}
+
+.next button{
+  border: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  text-decoration: underline;
+}
+
+.gameResultWrapper{
+  position: absolute;
+  width: 100vw;
+  height: 60vh;
+  top: 40;
+  left:0;
+}
+
+.gameResult {
+  position: absolute;
+  top: 30%;
+  right: 50%;
+  transform: translate(50%, -50%);
+}
+
+.gameResult {
+  font-family: 'Montserrat-ExtraBold';
+}
+
+.gameResult.start {
+  opacity: 0;
+  font-size: 2em;
+  animation: fade 2s linear;
+}
+
+.gameResult.displayNone{
+  opacity: 0;
+}
+
+@keyframes fade {
+  0% { opacity: 0; font-size: 2em }
+  10%{opacity: 1 }
+  50% { opacity: 1; } 
+  100% {opacity: 0; font-size: 12em}
+}
+
+
+

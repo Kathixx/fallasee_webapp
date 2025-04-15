@@ -16,7 +16,7 @@ import FallacyShort from '../components/FallacyShort.vue'
           detect fallacy
         </button>
       </div>
-      <div class="row prediction">
+      <div class="row prediction ">
         <div class="col-md-8 offset-2" v-if="sentence_to_predict" >
           <div class="sentence">
             <h4> Sentence to predict:</h4>
@@ -34,7 +34,7 @@ import FallacyShort from '../components/FallacyShort.vue'
             <h2>Loading ...</h2>
           </div>
         </div>
-        <div class="col-8 offset-2 fallacy-list" v-if="list.length >0">
+        <div class="col-10 offset-1 fallacy-list" v-if="list.length >0">
           <div class="heading">
             <h2> Previous results</h2>
             <button @click="clearLocalStorage" >  
@@ -42,14 +42,14 @@ import FallacyShort from '../components/FallacyShort.vue'
             </button>
           </div>
           <div class="table header">
-            <div class="col-6">Sentence to predict</div>
-            <div class="col-2">Result</div>
+            <div class="col-5">Sentence to predict</div>
+            <div class="col-3">Result</div>
             <div class="col-2">Confidence</div>
             <div class="col-2">Probability</div>
           </div>
           <div class="table" v-for="(value, key) in list">
-            <div class="col-6">{{value.sentence}}</div>
-            <div class="col-2 listFallacy" :class="value.fallacy"><span>{{value.label}}</span></div>
+            <div class="col-5">{{value.sentence}}</div>
+            <div class="col-3 listFallacy" :class="value.fallacy"><span></span>{{value.label}}</div>
             <div class="col-2">{{value.confidence}}</div>
             <div class="col-2">{{value.proba}}</div>
           </div>
