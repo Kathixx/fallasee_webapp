@@ -39,7 +39,7 @@ CORS(app, resources={
 
 
 def get_tokenized_text(txt):
-    x_tokenized = tokenize(txt, "distilbert-base-uncased")
+    x_tokenized = tokenize(txt, "microsoft/deberta-v3-base")
     return x_tokenized
 
 def predict(model, encodings, batch_size=8):
@@ -108,7 +108,7 @@ def after_request(response):
 @app.route('/predict', methods=['POST'])
 @cross_origin(origin='http://localhost:5173')
 def input_predict_text():
-    model = mlflow.pytorch.load_model('./models/distilbert_multiclass_with_none/pytorch_model')
+    model = mlflow.pytorch.load_model('./models/deberta_v3_multiclass_with_none_large/pytorch_model')
     #get input
     txt = request.get_json()['txt']
     tokenized_txt = get_tokenized_text(txt)
