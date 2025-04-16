@@ -39,9 +39,9 @@ Categories used for training:
 | Ad Hominem  |  This fallacy occurs when the speaker is attacking the other person or some aspect of them rather than addressing the argument itself. |
 |Appeal to Authority | This fallacy occurs when an argument relies on the opinion or endorsement of an authority figure who may not have relevant expertise or whose expertise is questionable.| 
 | Appeal to Emotion | This fallacy occurs when an emotion is used to support an argument, such as pity, fear, anger, etc..  |
-| Faulty Generalization  | This fallacy occurs when an argument assumes something is true for a large population without having a large enough sample. A kind of overgeneralization. | 
 | False Dilemma | This fallacy occurs when only two options are presented in an argument, even though more options may exist. A case of "either this or that".|
 |None | There are no fallacies in the text.|
+| Slippery Slope | This fallacy occurs when someone argues that a event will trigger a series of events that lead to an extreme outcome without demonstrating any causal connections between the events.|
 
 <br>
 
@@ -76,8 +76,12 @@ Pre-Trained Models
 
 ## Model Evaluation
 
-| Model        | Macro F1 | Brier Score | 
-|------------|----------|--------|
+| Model        | Macro F1 |
+|------------|----------|
+Logistic Regression | .. |
+DeepSeek | .. |
+DistilBERT | .. |‚
+
 
 
 ## Web Application
