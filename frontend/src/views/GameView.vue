@@ -10,7 +10,10 @@
       </div>
     </div>
     <div class="col-12 introduction">
-      <p>Points: {{ points }} | Round: {{ round }}</p>
+      <div class="status">
+        <p><b>Round: {{ round }}</b></p>
+        <p><b>YOU: {{ points_user }}  | AI: {{ points_ai }} </b></p>
+      </div>
       <div class=" row gameWrapper">
         <p>{{ txt }}</p>
       </div>
@@ -101,8 +104,9 @@ const delay = ms => new Promise(res => setTimeout(res, ms));
 export default {
   data() {
     return{
-      points: 0,
-      round: 0,
+      points_user: 0,
+      points_ai: 0,
+      round: 1,
       txt : '',
       solution : '',
       prediction: '',
@@ -155,27 +159,35 @@ export default {
         console.log(err)
       })
     },
-    check(user) {
-      let current_result = ''
+    async check(user) {
       let userWrong = false
       let aiWrong = false
+      if (this.prediction != this.solution) {
+        aiWrong = true
+      }
+      if (user != this.solution) {
+        userWrong = true
+      }
+      await this.setClasses(user, userWrong, aiWrong)
+
+      let current_result = ''
+      
       if(user == this.solution) {
-        this.points = this.points +1
+        this.points_user = this.points_user +1
         current_result = '+1'
         if (this.prediction != user) {
-          this.points = this.points +1
+          this.points_user = this.points_user +1
           current_result = '+2'
         }
       }
       else {
         current_result = '+0'
-        userWrong = true
       } 
-      if (this.prediction != this.solution) {
-        aiWrong = true
+      if (this.prediction == this.solution) {
+        this.points_ai = this.points_ai+1
       }
+
       this.result = current_result
-      this.setClasses(user, userWrong, aiWrong)
     },
     nextRound() {
       this.round = this.round + 1
@@ -274,8 +286,9 @@ export default {
       this.ai_dilemma  =false,
       this.ai_none  =false,
       this.ai_slope  =false,
-      this.result = ''
-      this.show = false
+      this.result = '',
+      this.show = false,
+      this.moderation = 'Choose the right fallacy'
     },
     
   }

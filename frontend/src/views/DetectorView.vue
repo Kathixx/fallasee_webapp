@@ -53,7 +53,7 @@ import FallacyShort from '../components/FallacyShort.vue'
               </span></div>
             <div class="col-2">Probability</div>
           </div>
-          <div class="table" v-for="(value, key) in list">
+          <div class="table content" v-for="(value, key) in list">
             <div class="col-5">{{value.sentence}}</div>
             <div class="col-3 listFallacy" :class="value.fallacy"><span></span>{{value.label}}</div>
             <div class="col-2">{{value.confidence}}</div>
@@ -126,6 +126,7 @@ export default {
       return predictions
     },
     getPrediction (data) {
+      console.log('predict!')
       // await axios.get('http://localhost:5000/predict').then(
       //   result => {
           console.log("get Prediction:", data)
@@ -143,8 +144,10 @@ export default {
             let confidence = this.getConfidence(max)
             let item = {'fallacy': position, 'proba':max, 'confidence': confidence}
             this.resultList.push(item)
-            let currentPreds = predictions
+            let currentPreds = [...predictions];
+            console.log('before:', currentPreds, predictions)
             currentPreds.splice(position, 1)
+            console.log('after:', currentPreds, predictions)  
             let max2 =  Math.max.apply(null, currentPreds)
             let position2 = predictions.indexOf(max2)
             let item2 = {'fallacy': position2, 'proba':max2, 'confidence': 'chance'}
@@ -158,7 +161,7 @@ export default {
           }
           console.log('resultList:', this.resultList)
           this.predictionReady = true
-          if (max > 0.5) {this.setFallacyToLocalStorage(position, max, this.sentence)}
+          if (max > 0.4) {this.setFallacyToLocalStorage(position, max, this.sentence)}
           this.sentence = ''
     },
     calculate(proba) {
@@ -213,7 +216,7 @@ export default {
         'confidence': this.getConfidence(proba),
 
       }
-      this.list.push(newEntry)
+      this.list.unshift(newEntry)
       localStorage.setItem('FallacyList', JSON.stringify(this.list))
       console.log('Set local storage:', this.list)
       console.log('Get local storage:', localStorage.getItem('FallacyList'))
