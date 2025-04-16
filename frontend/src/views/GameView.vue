@@ -25,7 +25,7 @@
               <span class="ai"><p>AI</p></span>
             </div>
           </div>
-          <button :class="{'right' : btn_adHominem, 'disabled': isDisabled}" @click="check('adHominem')"  >Ad Hominem</button>
+          <button :class="{'right' : isRight_adHominem, 'wrong': isWrong_adHominem , 'disabled': isDisabled}" @click="check('adHominem')"  >Ad Hominem</button>
         </div>
         <div class=" col-2 buttonWrapper authority">
           <div class="choices">
@@ -36,7 +36,7 @@
               <span class="ai"><p>AI</p></span>
             </div>
           </div>
-          <button :class="{'right' : btn_authority, 'disabled': isDisabled}" @click="check('authority')"  >Appeal To Authority</button>
+          <button :class="{'right' : isRight_authority, 'wrong': isWrong_authority , 'disabled': isDisabled}" @click="check('authority')"  >Appeal To Authority</button>
         </div>
         <div class=" col-2 buttonWrapper emotion">
           <div class="choices">
@@ -47,7 +47,7 @@
               <span class="ai"><p>AI</p></span>
             </div>
           </div>
-          <button :class="{'right' : btn_emotion, 'disabled': isDisabled}" @click="check('emotion')" >Appeal To Emotion</button>
+          <button :class="{'right' : isRight_emotion, 'wrong': isWrong_emotion , 'disabled': isDisabled}" @click="check('emotion')" >Appeal To Emotion</button>
         </div>
         <div class=" col-2 buttonWrapper dilemma">
           <div class="choices">
@@ -58,7 +58,7 @@
               <span class="ai"><p>AI</p></span>
             </div>
           </div>
-          <button :class="{'right' : btn_dilemma, 'disabled': isDisabled}" @click="check('dilemma')" >False Dilemma</button>
+          <button :class="{'right' : isRight_dilemma, 'wrong': isWrong_dilemma , 'disabled': isDisabled}" @click="check('dilemma')" >False Dilemma</button>
         </div>
         <div class=" col-2 buttonWrapper slope"> 
           <div class="choices">
@@ -69,7 +69,7 @@
               <span class="ai"><p>AI</p></span>
             </div>
           </div>
-          <button :class="{'right' : btn_slope, 'disabled': isDisabled}" @click="check('slope')" >Slippery Slope</button>
+          <button :class="{'right' : isRight_slope, 'wrong': isWrong_slope , 'disabled': isDisabled}" @click="check('slope')" >Slippery Slope</button>
         </div>
         <div class=" col-2 buttonWrapper none">
           <div class="choices">
@@ -80,7 +80,7 @@
               <span class="ai"><p>AI</p></span>
             </div>
           </div>
-          <button :class="{'right' : btn_none, 'disabled': isDisabled}" @click="check('none')" >No Fallacy</button>
+          <button :class="{'right' : isRight_none, 'wrong': isWrong_none , 'disabled': isDisabled}" @click="check('none')" >No Fallacy</button>
         </div>
       </div>
       <div class="row next">
@@ -107,12 +107,18 @@ export default {
       solution : '',
       prediction: '',
       isDisabled : false,
-      btn_adHominem: false,
-      btn_authority: false,
-      btn_emotion: false,
-      btn_dilemma: false,
-      btn_slope: false,
-      btn_none: false,
+      isRight_adHominem: false,
+      isRight_authority: false,
+      isRight_emotion: false,
+      isRight_dilemma: false,
+      isRight_slope: false,
+      isRight_none: false,
+      isWrong_adHominem: false,
+      isWrong_authority: false,
+      isWrong_emotion: false,
+      isWrong_dilemma: false,
+      isWrong_slope: false,
+      isWrong_none: false,
       user_adHominem : false,
       user_authority : false,
       user_emotion : false,
@@ -150,8 +156,9 @@ export default {
       })
     },
     check(user) {
-      this.setClasses(user)
       let current_result = ''
+      let userWrong = false
+      let aiWrong = false
       if(user == this.solution) {
         this.points = this.points +1
         current_result = '+1'
@@ -160,8 +167,15 @@ export default {
           current_result = '+2'
         }
       }
-      else current_result = ':/'
+      else {
+        current_result = '+0'
+        userWrong = true
+      } 
+      if (this.prediction != this.solution) {
+        aiWrong = true
+      }
       this.result = current_result
+      this.setClasses(user, userWrong, aiWrong)
     },
     nextRound() {
       this.round = this.round + 1
@@ -190,11 +204,11 @@ export default {
       }
       return predictions
     },
-    async setClasses(user) {
+    async setClasses(user, userWrong, aiWrong) {
       this.isDisabled = true
       this.moderation = 'You have chosen:'
       // User Icon
-      if(user == 'adHominem') { this.user_adHominem = true}
+      if(user == 'adHominem') { this.user_adHominem = true }
       if(user == 'authority') { this.user_authority = true}
       if(user == 'emotion') { this.user_emotion = true}
       if(user == 'dilemma') { this.user_dilemma = true}
@@ -214,22 +228,40 @@ export default {
       this.moderation = 'The correct answer is...'
       await delay(1000);
       // Button
-      if(this.solution == 'adHominem') { this.btn_adHominem = true}
-      if(this.solution == 'authority') { this.btn_authority = true}
-      if(this.solution == 'emotion') { this.btn_emotion = true}
-      if(this.solution == 'dilemma') { this.btn_dilemma = true}
-      if(this.solution == 'none') { this.btn_none = true}
-      if(this.solution == 'slope') { this.btn_slope = true}
+      if(this.solution == 'adHominem') { this.isRight_adHominem = true}
+      if(this.solution == 'authority') { this.isRight_authority = true}
+      if(this.solution == 'emotion') { this.isRight_emotion = true}
+      if(this.solution == 'dilemma') { this.isRight_dilemma = true}
+      if(this.solution == 'none') { this.isRight_none = true}
+      if(this.solution == 'slope') { this.isRight_slope = true}
+      if(user == 'adHominem' & userWrong) {this.isWrong_adHominem=true} 
+      if(user == 'authority' & userWrong) {this.isWrong_authority=true} 
+      if(user == 'emotion' & userWrong) {this.isWrong_emotion=true} 
+      if(user == 'dilemma' & userWrong) {this.isWrong_dilemma=true} 
+      if(user == 'none' & userWrong) {this.isWrong_none=true} 
+      if(user == 'slope' & userWrong) {this.isWrong_slope=true} 
+      if(this.prediction == 'adHominem' & aiWrong) {this.isWrong_adHominem=true} 
+      if(this.prediction == 'authority' & aiWrong) {this.isWrong_authority=true} 
+      if(this.prediction == 'emotion' & aiWrong) {this.isWrong_emotion=true} 
+      if(this.prediction == 'dilemma' & aiWrong) {this.isWrong_dilemma=true} 
+      if(this.prediction == 'none' & aiWrong) {this.isWrong_none=true} 
+      if(this.prediction == 'slope' & aiWrong) {this.isWrong_slope=true} 
       this.show = true
     },
     reset(){
       this.isDisabled = false,
-      this.btn_adHominem =false,
-      this.btn_authority =false,
-      this.btn_emotion =false,
-      this.btn_dilemma =false,
-      this.btn_slope =false,
-      this.btn_none =false,
+      this.isRight_adHominem =false,
+      this.isRight_authority =false,
+      this.isRight_emotion =false,
+      this.isRight_dilemma =false,
+      this.isRight_slope =false,
+      this.isRight_none =false,
+      this.isWrong_adHominem =false,
+      this.isWrong_authority =false,
+      this.isWrong_emotion =false,
+      this.isWrong_dilemma =false,
+      this.isWrong_slope =false,
+      this.isWrong_none =false,
       this.user_adHominem  =false,
       this.user_authority  =false,
       this.user_emotion  =false,

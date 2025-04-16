@@ -6,7 +6,7 @@ import FallacyShort from '../components/FallacyShort.vue'
   <main>
     <div class="row" id="detector">
       <div class="col-8 offset-2">
-        <p>FallaSee can detect logical fallacies in a sentence or argument. Just write your sentence or argument in the field below.</p>
+        <p>FallaSee can detect logical fallacies in a sentence. Just write your sentence in the field below.</p>
         <textarea v-model="sentence" @input="countChar" placeholder="Type your sentence here." ></textarea>
         <p :class="{help: true, 'is-danger': remaining==0}"> {{instruction}} max characters</p>
         <!-- <p>{{ wordCount}} words</p> -->
@@ -28,7 +28,7 @@ import FallacyShort from '../components/FallacyShort.vue'
             <div v-for="(value, key) in resultList">
               <FallacyShort :label=value.fallacy :proba=value.proba :confidence = value.confidence></FallacyShort>
             </div>
-            <p><i>Be aware, our AI can only detect 5 logical fallacies. There are many more. AI can also make mistakes. Please check your text again!</i></p>
+            <p><i>We are very proud of our AI, but remember that having one sentence is rarely enough to decide with 100% certainty whether something is sound reasoning or not. Please be aware, our AI can only detect 5 logical fallacies. There are many more. AI can also make mistakes. Please check your text again!</i></p>
           </div>
           <div class="result" v-else>
             <h2>Loading ...</h2>
@@ -44,7 +44,13 @@ import FallacyShort from '../components/FallacyShort.vue'
           <div class="table header">
             <div class="col-5">Sentence to predict</div>
             <div class="col-3">Result</div>
-            <div class="col-2">Confidence</div>
+            <div class="col-2 tooltipWrapper">Confidence <span class="tooltipicon">?</span>
+              <span class="tooltiptext">
+                <h1>Confidence Levels</h1>
+                <p><b>positive:</b> 90% – 100% <br>
+                <b>very sure:</b> 70% – 90%<br>
+                <b>sure:</b> 40% – 70%</p>
+              </span></div>
             <div class="col-2">Probability</div>
           </div>
           <div class="table" v-for="(value, key) in list">
@@ -133,7 +139,7 @@ export default {
             this.resultList.push(item)
             console.log('show only one fallacy', max)
           }
-          else if (max > 0.5) {
+          else if (max > 0.4) {
             let confidence = this.getConfidence(max)
             let item = {'fallacy': position, 'proba':max, 'confidence': confidence}
             this.resultList.push(item)
@@ -183,7 +189,7 @@ export default {
         confidence = 'very sure'
         return confidence
       }
-      else if (proba > 0.5) {
+      else if (proba > 0.4) {
         confidence = 'sure'
         return confidence
       }

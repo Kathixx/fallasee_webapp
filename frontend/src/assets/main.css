@@ -223,6 +223,58 @@ button:hover{
   font-family: 'Montserrat-Bold';
 }
 
+
+
+.fallacy-list .table.header .tooltipWrapper{
+  position: relative;
+}
+
+.fallacy-list .table.header .tooltipWrapper:hover{
+  cursor: pointer;
+}
+
+.fallacy-list .table.header .tooltipWrapper:hover .tooltiptext {
+  opacity: 1;
+  transition: opacity ease-in-out 500ms;
+ 
+}
+
+.fallacy-list .table.header .tooltipicon {
+  text-align: center;
+  font-size: 10px;
+  background-color: rgba(255, 255, 255, 0.392);
+  border-radius: 20px;
+  display: inline-block;
+  width: 15px;
+  transform: translateY(-10px);
+}
+
+.fallacy-list .table.header .tooltiptext {
+  opacity: 0;
+  background-color: rgba(255, 255, 255, 0.392);
+  position:absolute;
+  width: 200px;
+  height: fit-content;
+  top: 0;
+  left: 0;
+  transform: translate(-20%, -110%);
+  padding: 15px
+}
+.tooltiptext h1{
+  font-size:  15px;
+  font-family: 'Montserrat-Bold';
+  background-color: transparent;
+  padding: 0px;
+  margin: 0px;
+}
+.tooltiptext p {
+  font-size: 14px;
+  font-family: "Montserrat-Regular";
+  background-color: transparent;
+  margin: 0px
+}
+
+
 .fallacy-list .listFallacy span{
   width: 15px;
   height: 15px;
@@ -411,13 +463,13 @@ button:hover{
 }
 
 
-.buttonWrapper.adHominem button:hover{
-    -webkit-box-shadow: 0px 0px 10px 6px var(--violet);
-    -moz-box-shadow: 0px 0px 10px 6px var(--violet);
-    box-shadow: 0px 0px 10px 6px var(--violet);
+.buttonWrapper button:hover{
+    -webkit-box-shadow: 0px 0px 10px 6px var(--yellow);
+    -moz-box-shadow: 0px 0px 10px 6px var(--yellow);
+    box-shadow: 0px 0px 10px 6px var(--yellow);
 }
 
-
+/* 
 .buttonWrapper.authority button:hover{
     -webkit-box-shadow: 0px 0px 10px 6px var(--rose);
     -moz-box-shadow: 0px 0px 10px 6px var(--rose);
@@ -449,7 +501,7 @@ button:hover{
     -webkit-box-shadow: 0px 0px 10px 6px var(--green);
     -moz-box-shadow: 0px 0px 10px 6px var(--green);
     box-shadow: 0px 0px 10px 6px var(--green);
-}
+} */
 
 .buttonWrapper.adHominem button.disabled:hover, 
   .buttonWrapper.authority button.disabled:hover, 
@@ -462,10 +514,18 @@ button:hover{
     box-shadow: none;
   }
 
-.buttonWrapper.adHominem button.right{
-  background-color: var(--violet)
+.buttonWrapper button.right{
+  -webkit-box-shadow: 0px 0px 10px 6px var(--green);
+  -moz-box-shadow: 0px 0px 10px 6px var(--green);
+  box-shadow: 0px 0px 10px 6px var(--green);
 }
-.buttonWrapper.authority button.right{
+
+.buttonWrapper button.wrong{
+  -webkit-box-shadow: 0px 0px 10px 6px var(--orange);
+  -moz-box-shadow: 0px 0px 10px 6px var(--orange);
+  box-shadow: 0px 0px 10px 6px var(--orange);
+}
+/* .buttonWrapper.authority button.right{
   background-color: var(--rose)
 }
 .buttonWrapper.emotion button.right{
@@ -479,14 +539,14 @@ button:hover{
 }
 .buttonWrapper.none button.right{
   background-color: var(--green)
-}
+} */
 
 
 
 
 .gameButtons .buttonWrapper .choices{
   position: absolute;
-  top: -10px;
+  top: -20px;
   right: 10px;
 }
 
@@ -513,33 +573,14 @@ button:hover{
   display: none;
 }
 
-.buttonWrapper.adHominem .choices span{
-  background-color: var(--violet)
-}
-
-
-.buttonWrapper.authority .choices span{
-  background-color: var(--rose)
-}
-
-
-.buttonWrapper.emotion .choices span{
-  background-color: var(--orange)
-}
-
-
-.buttonWrapper.dilemma .choices span{
+.buttonWrapper .choices span.user{
   background-color: var(--yellow)
 }
 
-
-.buttonWrapper.slope .choices span{
+.buttonWrapper .choices span.ai{
   background-color: var(--blue)
 }
 
-.buttonWrapper.none .choices span{
-  background-color: var(--green)
-}
 
 .next {
   margin-top: 2em;
