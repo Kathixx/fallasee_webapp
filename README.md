@@ -1,32 +1,16 @@
 # Capstone Project
 **Authors:**
-@Maren Borman, @Aylin Hanne, @Parya Tavaloki-Tehrani, @Katharina Baumgartner
+
+[Maren Bormann](https://www.linkedin.com/in/maren-bormann/)
+
+[Aylin Hanne](https://www.linkedin.com/in/aylin-hanne/)
+
+[Parya Tavaloki-Tehrani](https://www.linkedin.com/in/parya-tavakoli-tehrani/)
+
+[Katharina Baumgartne](https://www.linkedin.com/in/katharina-baumgartner/)
 
 ## About the Project
 This project began as part of our Capstone Phase at [neuefische GmbH](https://www.neuefische.de). Our idea was to train an NLP Model to detect logical fallacies in sentences and build a web application where users can enter their own sentences.
-
-
-## Used Datasets
-We have merged our dataset from the following datasets:
-1) [Jin et al. (2022)](https://arxiv.org/pdf/2202.13758). Dataset:
-[LogicClimate](https://github.com/causalNLP/logical-fallacy/tree/main/data) 
-
-2) Midhun Kandan. *Logical Fallacy Classification*. 2004. Dataset: [Hugging Face Dataset](https://huggingface.co/datasets/MidhunKanadan/logical-fallacy-classification)
-
-3) [Yeh et al. (2024)](https://arxiv.org/pdf/2410.03457v1). Dataset:
-[CoCoLoFa](https://github.com/Crowd-AI-Lab/cocolofa) 
-
-4) [Chaves et al. (2025)](https://hal.science/hal-04834405/document). Dataset:
-[FALCON](https://github.com/m-chaves/falcon-fallacy-classification) 
-
-5) [Alhindi et al. (2022)](https://aclanthology.org/2022.emnlp-main.560.pdf). Dataset:
-[Datasets](https://github.com/Tariq60/fallacy-detection) 
-
-6) [Helwe et al. (2024)](https://arxiv.org/pdf/2311.09761). Dataset:
-[MAFALDA](https://github.com/ChadiHelwe/MAFALDA) 
-
-7) [Goffredo et al. (2023)](https://aclanthology.org/2023.emnlp-main.684.pdf). Dataset:
-[ElecDeb60to20](https://github.com/pierpaologoffredo/ElecDeb60to20) 
 
 
 ## Categories of Logical Fallacies
@@ -48,39 +32,14 @@ Categories used for training:
 *Please note*: The definitions of the fallacies were taken from the research papers cited above or adjusted by us as needed.
 
 
-## NLP Models
-<br>
-Baseline Models
-
-- Random
-- Logistic Regression
-- Support Vector Machine (SVM) 
-
-<br>
-Zero-Shot Models
-
-- facebook/bart-large-mnli 
-- Llama
-- DeepSeek
-
-<br>
-Pre-Trained Models
-
-- DistilBERT
-- microsoft/deberta-v3-small
-- q3fer/distilbert-base-fallacy-classification
-
-
-
-
-
 ## Model Evaluation
 
 | Model        | Macro F1 |
 |------------|----------|
-Logistic Regression | .. |
-DeepSeek | .. |
-DistilBERT | .. |‚
+Logistic Regression | 65 |
+DeepSeek | 53 |
+DistilBERT | 71 |
+Deberta  | 76  |
 
 
 
@@ -195,3 +154,25 @@ npm install vite
 ```bash
 npm install axios
 ```
+
+## Datasets Sources
+We have merged our dataset from the following datasets:
+1) [Jin et al. (2022)](https://arxiv.org/pdf/2202.13758). Dataset:
+[LogicClimate](https://github.com/causalNLP/logical-fallacy/tree/main/data) 
+
+2) Midhun Kandan. *Logical Fallacy Classification*. 2004. Dataset: [Hugging Face Dataset](https://huggingface.co/datasets/MidhunKanadan/logical-fallacy-classification)
+
+3) [Yeh et al. (2024)](https://arxiv.org/pdf/2410.03457v1). Dataset:
+[CoCoLoFa](https://github.com/Crowd-AI-Lab/cocolofa) 
+
+4) [Chaves et al. (2025)](https://hal.science/hal-04834405/document). Dataset:
+[FALCON](https://github.com/m-chaves/falcon-fallacy-classification) 
+
+5) [Alhindi et al. (2022)](https://aclanthology.org/2022.emnlp-main.560.pdf). Dataset:
+[Datasets](https://github.com/Tariq60/fallacy-detection) 
+
+6) [Helwe et al. (2024)](https://arxiv.org/pdf/2311.09761). Dataset:
+[MAFALDA](https://github.com/ChadiHelwe/MAFALDA) 
+
+7) [Goffredo et al. (2023)](https://aclanthology.org/2023.emnlp-main.684.pdf). Dataset:
+[ElecDeb60to20](https://github.com/pierpaologoffredo/ElecDeb60to20) 
