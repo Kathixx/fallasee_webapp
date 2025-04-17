@@ -108,7 +108,7 @@ def after_request(response):
 @app.route('/predict', methods=['POST'])
 @cross_origin(origin='http://localhost:5173')
 def input_predict_text():
-    model = mlflow.pytorch.load_model('./models/deberta_v3_multiclass_with_none_large/pytorch_model')
+    model = mlflow.pytorch.load_model('./models/deberta_v3_multi_with_none_large_3_epochs/pytorch_model')
     #get input
     txt = request.get_json()['txt']
     tokenized_txt = get_tokenized_text(txt)
