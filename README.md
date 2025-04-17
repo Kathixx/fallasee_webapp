@@ -7,7 +7,7 @@
 
 [Parya Tavaloki-Tehrani](https://www.linkedin.com/in/parya-tavakoli-tehrani/)
 
-[Katharina Baumgartne](https://www.linkedin.com/in/katharina-baumgartner/)
+[Katharina Baumgartner](https://www.linkedin.com/in/katharina-baumgartner-b80057261/)
 
 ## About the Project
 This project began as part of our Capstone Phase at [neuefische GmbH](https://www.neuefische.de). Our idea was to train an NLP Model to detect logical fallacies in sentences and build a web application where users can enter their own sentences.
@@ -36,10 +36,10 @@ Categories used for training:
 
 | Model        | Macro F1 |
 |------------|----------|
-Logistic Regression | 65 |
-DeepSeek | 53 |
-DistilBERT | 71 |
-Deberta  | 76  |
+Logistic Regression | 0.65 |
+DeepSeek | 0.53 |
+DistilBERT | 0.71 |
+Deberta  | 0.76  |
 
 
 
