@@ -51,10 +51,7 @@
         {
             "example": "Elon Musk said it’s a good investment, so we should all invest.",
             "label": "authority"
-        }
-        
-    ],
-    "more": [
+        },
         {
             "example": "This new diet must be effective - a famous actor said it worked for him.",
             "label": "authority"
