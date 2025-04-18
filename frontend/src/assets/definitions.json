@@ -4,43 +4,43 @@
             "id": 0,
             "fallacy": "Ad Hominem",
             "explanation": "This fallacy occurs when the speaker is attacking the other person or some aspect of them rather than addressing the argument itself.",
-            "image_url":"../src/assets/icons/ad_hominem.png"
+            "image_url":"/icons/ad_hominem.png"
         },
         {
             "id": 1,
             "fallacy": "Appeal To Authority",
             "explanation": "This fallacy occurs when an argument relies on the opinion or endorsement of an authority figure who may not have relevant expertise or whose expertise is questionable. When applicable, a scientific consensus is not an appeal to authority.",
-            "image_url":"../src/assets/icons/authority.png"
+            "image_url":"/icons/authority.png"
         },
         {
             "id": 2,
             "fallacy": "Appeal To Emotion",
             "explanation": "This fallacy occurs when emotion is used to support an argument, such as pity, fear, anger, etc.",
-            "image_url":"../src/assets/icons/emotion.png"
+            "image_url":"/icons/emotion.png"
         },
         {
             "id": 3,
             "fallacy": "False Dilemma",
             "explanation": "This fallacy occurs when only two options are presented in an argument, even though more options may exist. A case of “either this or that”.",
-            "image_url":"../src/assets/icons/dilemma.png"
+            "image_url":"/icons/dilemma.png"
         },
         {
             "id": 4,
             "fallacy": "No Fallacy",
             "explanation": "No fallacy has been detected by the AI. However, the AI can make mistakes. Also, there are much more fallacies than the five fallacies the AI is trained on, e.g, Strawman, Cherry Picking and Red Herring.",
-            "image_url":"../src/assets/icons/none.png"
+            "image_url":"/icons/none.png"
         },
         {
             "id": 5,
             "fallacy": "Slippery Slope",
             "explanation": "This fallacy occurs when someone argues that a event will trigger a series of events that lead to an extreme outcome without demonstrating any causal connections between the events.",
-            "image_url":"../src/assets/icons/slope.png"
+            "image_url":"/icons/slope.png"
         },
         {
             "id": 6,
             "fallacy": "Need more context",
             "explanation": "The AI could not make any reliable predictions based on your input text. Please try to adapt your text by adjusting the total number of words used or the meaning of your text.",
-            "image_url":"../src/assets/icons/context.png"
+            "image_url":"/icons/context.png"
         }
     ],
     "game": [

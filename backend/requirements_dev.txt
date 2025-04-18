@@ -24,7 +24,7 @@ tf_keras==2.19.0
 accelerate==1.5.2
 huggingface_hub
 
-
+gunicorn
 
 nltk==3.9.1 # preprocess text for basic models
 
