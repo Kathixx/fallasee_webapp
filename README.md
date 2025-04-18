@@ -1,4 +1,6 @@
-# Capstone Project
+# FallaSee
+## Detecting Logical Fallacies
+
 **Authors:**
 
 [Maren Bormann](https://www.linkedin.com/in/maren-bormann/)
