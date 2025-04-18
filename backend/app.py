@@ -5,17 +5,19 @@ from datetime import timedelta
 
 import numpy as np
 import torch
-import mlflow.pytorch
-
-from modeling.basic_functions import (
-    tokenize,
-)
+from transformers import  AutoTokenizer, AutoModelForSequenceClassification
 
 
-# SECRET KEY
-# TODO: SAFE IN ENVIRONMENT VARIABLE
-import secrets
-secret_key = secrets.token_hex(32)  # 64-character hexadecimal string
+from huggingface_hub import hf_hub_download
+import os
+
+
+token = os.environ.get("HUGGINGFACE_TOKEN")
+
+model_path = hf_hub_download(repo_id="kathixx/fallasee_deberta_large", filename="model.pth", token=token)
+
+
+secret_key = os.environ.get("SECRET_KEY")  # 64-character hexadecimal string
 
 
 app = Flask(__name__)
@@ -36,6 +38,18 @@ CORS(app, resources={
         "supports_credentials": True 
     }
 })
+
+def tokenize(texts, mp):
+    # tokenization after train test split to prevent data leakage
+    #added use_fast=False to prevent tokenization error (might happen when using fast tokenization)
+    tokenizer = AutoTokenizer.from_pretrained(mp)
+    return tokenizer(
+        texts,
+        padding="max_length", #ensures that all tokenized sequences are padded to the same length, padding adds special tokens to shorter sequeces so they match the maximum length
+        truncation=True, #if sequence exceeds max, it will be trucated
+        max_length=512, #for most transformer models, 512 is a common limit for maximum length
+        return_tensors="pt" #converts the output to pytorch tensors
+    )
 
 
 def get_tokenized_text(txt):
@@ -108,7 +122,12 @@ def after_request(response):
 @app.route('/predict', methods=['POST'])
 @cross_origin(origin='http://localhost:5173')
 def input_predict_text():
-    model = mlflow.pytorch.load_model('./models/deberta_v3_multi_with_none_large_3_epochs/pytorch_model')
+    # model = mlflow.pytorch.load_model('./models/deberta_v3_multi_with_none_large_3_epochs/pytorch_model')
+    model = AutoModelForSequenceClassification.from_pretrained(
+    "kathixx/fallasee_deberta_large",
+    num_labels=6,
+    problem_type="single_label_classification"
+)
     #get input
     txt = request.get_json()['txt']
     tokenized_txt = get_tokenized_text(txt)
@@ -124,5 +143,7 @@ def input_predict_text():
         })
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    import os
+    port = int(os.environ.get("PORT", 5000))
+    app.run(host="0.0.0.0", port=port)
 

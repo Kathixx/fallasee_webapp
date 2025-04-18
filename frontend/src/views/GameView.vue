@@ -96,6 +96,13 @@
 <script>
 import axios from 'axios'
 
+import.meta.env.VITE_API_URL
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
+
+
 axios.defaults.withCredentials = true; 
 
 import data from '../assets/definitions.json'
@@ -148,7 +155,7 @@ export default {
       let random = Math.floor(Math.random() *data.game.length);
       this.txt = data.game[random].example
       this.solution = data.game[random].label
-      await axios.post('http://localhost:5000/predict',
+      await axios.post('/predict',
         { txt: this.txt }, 
       )
       .then(res => {

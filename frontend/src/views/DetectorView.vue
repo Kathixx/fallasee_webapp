@@ -68,6 +68,12 @@ import FallacyShort from '../components/FallacyShort.vue'
 <!-- https://heartbeat.comet.ml/deploying-a-text-classification-model-using-flask-and-vue-js-25b9aa7ff048 -->
 <script>
 import axios from 'axios'
+import.meta.env.VITE_API_URL
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL,
+});
+
 axios.defaults.withCredentials = true;  // Ensure cookies are sent with requests
 
 export default {
@@ -225,7 +231,7 @@ export default {
       this.predictionReady = false
       this.sentence_to_predict = this.sentence
       // this.setFallacyToLocalStorage(this.fallacy)
-      await axios.post('http://localhost:5000/predict',
+      await axios.post('/predict',
         { txt: this.sentence }, 
       )
       .then(res => {
