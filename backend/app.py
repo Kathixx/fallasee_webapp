@@ -11,10 +11,13 @@ from transformers import  AutoTokenizer, AutoModelForSequenceClassification
 from huggingface_hub import hf_hub_download
 import os
 
-
 token = os.environ.get("HUGGINGFACE_TOKEN")
 
-model_path = hf_hub_download(repo_id="kathixx/fallasee_deberta_large", filename="model.pth", token=token)
+model_path = hf_hub_download(
+    repo_id="kathixx/fallasee_deberta_large", 
+    filename="model.pth",
+    subfolder="deberta_v3_multi_with_none_large_3_epochs/pytorch_model/data",
+    token=token)
 
 
 secret_key = os.environ.get("SECRET_KEY")  # 64-character hexadecimal string
@@ -124,7 +127,7 @@ def after_request(response):
 def input_predict_text():
     # model = mlflow.pytorch.load_model('./models/deberta_v3_multi_with_none_large_3_epochs/pytorch_model')
     model = AutoModelForSequenceClassification.from_pretrained(
-    "kathixx/fallasee_deberta_large",
+    model_path,
     num_labels=6,
     problem_type="single_label_classification"
 )
