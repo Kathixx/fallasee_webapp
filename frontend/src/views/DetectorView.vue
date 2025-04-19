@@ -72,6 +72,7 @@ import.meta.env.VITE_API_URL
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true
 });
 
 axios.defaults.withCredentials = true;  // Ensure cookies are sent with requests
@@ -231,7 +232,7 @@ export default {
       this.predictionReady = false
       this.sentence_to_predict = this.sentence
       // this.setFallacyToLocalStorage(this.fallacy)
-      await axios.post('/predict',
+      await api.post('/predict',
         { txt: this.sentence }, 
       )
       .then(res => {

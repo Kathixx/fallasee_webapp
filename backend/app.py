@@ -27,20 +27,21 @@ app = Flask(__name__)
 app.secret_key = secret_key  # Replace with actual key
 app.config.update(
     PERMANENT_SESSION_LIFETIME= timedelta(minutes=30),
-    SESSION_COOKIE_SECURE=False, # only with HTTPS
+    SESSION_COOKIE_SECURE=True, # only with HTTPS
     SESSION_COOKIE_SAMESITE='Lax',  # Allows cross-origin cookies
     SESSION_COOKIE_HTTPONLY=False,
     SESSION_COOKIE_PATH='/',
 )
 
-CORS(app, resources={
-    r"/predict": {
-        "origins": "https://fallasee-webapp-frontend.onrender.com",
-        "methods": ["POST","GET" "OPTIONS"],
-        "allow_headers": ["Content-Type"],
-        "supports_credentials": True 
-    }
-})
+CORS(app, supports_credentials=True, origins= ["https://fallasee-webapp-frontend.onrender.com"]#resources={
+    # r"/predict": {
+    #     "origins": "https://fallasee-webapp-frontend.onrender.com",
+    #     "methods": ["POST","GET", "OPTIONS"],
+    #     "allow_headers": ["Content-Type"],
+    #     "supports_credentials": True 
+    # }
+    # }
+)
 
 def tokenize(texts, mp):
     # tokenization after train test split to prevent data leakage

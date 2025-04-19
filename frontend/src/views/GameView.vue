@@ -100,6 +100,7 @@ import.meta.env.VITE_API_URL
 
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
+  withCredentials: true
 });
 
 
@@ -155,7 +156,7 @@ export default {
       let random = Math.floor(Math.random() *data.game.length);
       this.txt = data.game[random].example
       this.solution = data.game[random].label
-      await axios.post('/predict',
+      await api.post('/predict',
         { txt: this.txt }, 
       )
       .then(res => {
