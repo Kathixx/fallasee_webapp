@@ -104,7 +104,7 @@ const api = axios.create({
 });
 
 
-axios.defaults.withCredentials = true; 
+// axios.defaults.withCredentials = true; 
 
 import data from '../assets/definitions.json'
 const delay = ms => new Promise(res => setTimeout(res, ms));
