@@ -34,7 +34,7 @@ app.config.update(
 CORS(app, resources={
     r"/predict": {
      "supports_credentials": True, 
-     "origins": ["https://fallasee-webapp-frontend.onrender.com"],
+     "origins": "https://fallasee-webapp-frontend.onrender.com",
      "methods":['GET', 'POST', 'OPTIONS'],
      "allow_headers":['Content-Type', 'Authorization']
     }}
@@ -130,7 +130,7 @@ def after_request(response):
 
 
 @app.route('/predict', methods=['POST'])
-@cross_origin(origin='https://fallasee-webapp-frontend.onrender.com')
+@cross_origin(origin='https://fallasee-webapp-frontend.onrender.com', supports_credentials=True)
 def input_predict_text():
     # model = mlflow.pytorch.load_model('./models/deberta_v3_multi_with_none_large_3_epochs/pytorch_model')
     model = AutoModelForSequenceClassification.from_pretrained(
