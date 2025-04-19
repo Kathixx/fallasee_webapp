@@ -128,6 +128,10 @@ def after_request(response):
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
     return response
 
+@app.route("/predict", methods=["OPTIONS"])
+def handle_options():
+    return '', 204
+
 
 @app.route('/predict', methods=['POST'])
 @cross_origin(origin='https://fallasee-webapp-frontend.onrender.com', supports_credentials=True)

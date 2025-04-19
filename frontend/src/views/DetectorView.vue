@@ -231,7 +231,12 @@ export default {
       this.sentence_to_predict = this.sentence
       // this.setFallacyToLocalStorage(this.fallacy)
       await api.post('/predict',
-        { txt: this.sentence }, {withCredentials: true}, 
+        { txt: this.sentence }, 
+        {
+          withCredentials: true,
+        headers: {
+          'Content-Type': 'application/json'
+        }}, 
       )
       .then(res => {
         console.log('res push fallacy', res.data)
