@@ -35,7 +35,7 @@ app.config.update(
 
 CORS(app, resources={
     r"/predict": {
-        "origins": "http://localhost:5173",
+        "origins": "https://fallasee-webapp-frontend.onrender.com",
         "methods": ["POST","GET" "OPTIONS"],
         "allow_headers": ["Content-Type"],
         "supports_credentials": True 
@@ -115,7 +115,7 @@ def get_second_prediction(proba):
 @app.after_request
 def after_request(response):
     # Add CORS headers for every response
-    response.headers['Access-Control-Allow-Origin'] = 'http://localhost:5173'  # Replace with your client domain
+    response.headers['Access-Control-Allow-Origin'] = 'https://fallasee-webapp-frontend.onrender.com'  # Replace with your client domain
     response.headers['Access-Control-Allow-Credentials'] = 'true'
     response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
     response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
@@ -123,7 +123,7 @@ def after_request(response):
 
 
 @app.route('/predict', methods=['POST'])
-@cross_origin(origin='http://localhost:5173')
+@cross_origin(origin='https://fallasee-webapp-frontend.onrender.com')
 def input_predict_text():
     # model = mlflow.pytorch.load_model('./models/deberta_v3_multi_with_none_large_3_epochs/pytorch_model')
     model = AutoModelForSequenceClassification.from_pretrained(
