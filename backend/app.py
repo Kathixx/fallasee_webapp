@@ -124,10 +124,10 @@ def get_second_prediction(proba):
 @app.after_request
 def after_request(response):
     # Add CORS headers for every response
-    # response.headers['Access-Control-Allow-Origin'] = 'https://fallasee-webapp-frontend.onrender.com'  # Replace with your client domain
-    # response.headers['Access-Control-Allow-Credentials'] = 'true'
-    # response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
-    # response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    response.headers['Access-Control-Allow-Origin'] = 'https://fallasee-webapp-frontend.onrender.com'  # Replace with your client domain
+    response.headers['Access-Control-Allow-Credentials'] = 'true'
+    response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
+    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
     return response
 
 
