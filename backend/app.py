@@ -27,13 +27,19 @@ app = Flask(__name__)
 app.secret_key = secret_key  # Replace with actual key
 app.config.update(
     PERMANENT_SESSION_LIFETIME= timedelta(minutes=30),
-    SESSION_COOKIE_SECURE=True, # only with HTTPS
+    SESSION_COOKIE_SECURE=True , # only with HTTPS
     SESSION_COOKIE_SAMESITE='Lax',  # Allows cross-origin cookies
     SESSION_COOKIE_HTTPONLY=False,
     SESSION_COOKIE_PATH='/',
 )
 
-CORS(app, supports_credentials=True, origins= ["https://fallasee-webapp-frontend.onrender.com"]#resources={
+CORS(app, 
+     supports_credentials=True, 
+     origins= ["https://fallasee-webapp-frontend.onrender.com"],
+     methods=['GET', 'POST', 'OPTIONS'],
+     allow_headers=['Content-Type', 'Authorization']
+     
+     #resources={
     # r"/predict": {
     #     "origins": "https://fallasee-webapp-frontend.onrender.com",
     #     "methods": ["POST","GET", "OPTIONS"],
@@ -116,10 +122,10 @@ def get_second_prediction(proba):
 @app.after_request
 def after_request(response):
     # Add CORS headers for every response
-    response.headers['Access-Control-Allow-Origin'] = 'https://fallasee-webapp-frontend.onrender.com'  # Replace with your client domain
-    response.headers['Access-Control-Allow-Credentials'] = 'true'
-    response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
-    response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
+    # response.headers['Access-Control-Allow-Origin'] = 'https://fallasee-webapp-frontend.onrender.com'  # Replace with your client domain
+    # response.headers['Access-Control-Allow-Credentials'] = 'true'
+    # response.headers['Access-Control-Allow-Methods'] = 'GET,POST,PUT,DELETE,OPTIONS'
+    # response.headers['Access-Control-Allow-Headers'] = 'Content-Type,Authorization'
     return response
 
 
