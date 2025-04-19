@@ -75,7 +75,7 @@ const api = axios.create({
   withCredentials: true
 });
 
-axios.defaults.withCredentials = true;  // Ensure cookies are sent with requests
+api.defaults.withCredentials = true;  // Ensure cookies are sent with requests
 
 export default {
   data () {
@@ -134,42 +134,40 @@ export default {
     },
     getPrediction (data) {
       console.log('predict!')
-      // await axios.get('http://localhost:5000/predict').then(
-      //   result => {
-          console.log("get Prediction:", data)
-          this.resultList = []
-          let predictions = this.setPredictionArray(data)
-          let max = Math.max.apply(null, predictions)
-          let position = predictions.indexOf(max)
-          if (max >= 0.9) {
-            let confidence = this.getConfidence(max)
-            let item = {'fallacy': position, 'proba':max, 'confidence': confidence}
-            this.resultList.push(item)
-            console.log('show only one fallacy', max)
-          }
-          else if (max > 0.4) {
-            let confidence = this.getConfidence(max)
-            let item = {'fallacy': position, 'proba':max, 'confidence': confidence}
-            this.resultList.push(item)
-            let currentPreds = [...predictions];
-            console.log('before:', currentPreds, predictions)
-            currentPreds.splice(position, 1)
-            console.log('after:', currentPreds, predictions)  
-            let max2 =  Math.max.apply(null, currentPreds)
-            let position2 = predictions.indexOf(max2)
-            let item2 = {'fallacy': position2, 'proba':max2, 'confidence': 'chance'}
-            this.resultList.push(item2)
-            console.log('show more fallacies:', max, max2)
-          }
-          else {
-            let item = {'fallacy': 6, 'proba':0, 'confidence': ''}
-            this.resultList.push(item)
-            console.log('show no fallacy')
-          }
-          console.log('resultList:', this.resultList)
-          this.predictionReady = true
-          if (max > 0.4) {this.setFallacyToLocalStorage(position, max, this.sentence)}
-          this.sentence = ''
+      console.log("get Prediction:", data)
+      this.resultList = []
+      let predictions = this.setPredictionArray(data)
+      let max = Math.max.apply(null, predictions)
+      let position = predictions.indexOf(max)
+      if (max >= 0.9) {
+        let confidence = this.getConfidence(max)
+        let item = {'fallacy': position, 'proba':max, 'confidence': confidence}
+        this.resultList.push(item)
+        console.log('show only one fallacy', max)
+      }
+      else if (max > 0.4) {
+        let confidence = this.getConfidence(max)
+        let item = {'fallacy': position, 'proba':max, 'confidence': confidence}
+        this.resultList.push(item)
+        let currentPreds = [...predictions];
+        console.log('before:', currentPreds, predictions)
+        currentPreds.splice(position, 1)
+        console.log('after:', currentPreds, predictions)  
+        let max2 =  Math.max.apply(null, currentPreds)
+        let position2 = predictions.indexOf(max2)
+        let item2 = {'fallacy': position2, 'proba':max2, 'confidence': 'chance'}
+        this.resultList.push(item2)
+        console.log('show more fallacies:', max, max2)
+      }
+      else {
+        let item = {'fallacy': 6, 'proba':0, 'confidence': ''}
+        this.resultList.push(item)
+        console.log('show no fallacy')
+      }
+      console.log('resultList:', this.resultList)
+      this.predictionReady = true
+      if (max > 0.4) {this.setFallacyToLocalStorage(position, max, this.sentence)}
+      this.sentence = ''
     },
     calculate(proba) {
       let proba_hundred = proba * 100
