@@ -14,7 +14,6 @@ import os
 token = os.environ.get("HUGGINGFACE_TOKEN")
 
 model_path = hf_hub_download(
-    repo_id="kathixx/fallasee_deberta_large", 
     repo_id="kathixx/fallasee_deberta_large", filename="deberta_v3_multi_with_none_large_3_epochs/pytorch_model/data/model.pth",
     token=token)
 
