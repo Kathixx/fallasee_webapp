@@ -13,9 +13,9 @@ import os
 
 token = os.environ.get("HUGGINGFACE_TOKEN")
 
-model_path = hf_hub_download(
-    repo_id="kathixx/fallasee_deberta_large", filename="deberta_v3_multi_with_none_large_3_epochs/pytorch_model/data/model.pth",
-    token=token)
+# model_path = hf_hub_download(
+#     repo_id="kathixx/fallasee_deberta_large", filename="deberta_v3_multi_with_none_large_3_epochs/pytorch_model/data/model.pth",
+#     token=token)
 
 
 secret_key = os.environ.get("SECRET_KEY")  # 64-character hexadecimal string
@@ -49,10 +49,10 @@ CORS(app, resources={
     # }
 )
 
-def tokenize(texts, mp):
+def tokenize(texts):
     # tokenization after train test split to prevent data leakage
     #added use_fast=False to prevent tokenization error (might happen when using fast tokenization)
-    tokenizer = AutoTokenizer.from_pretrained(mp)
+    tokenizer = AutoTokenizer.from_pretrained("microsoft/deberta-v3-base")
     return tokenizer(
         texts,
         padding="max_length", #ensures that all tokenized sequences are padded to the same length, padding adds special tokens to shorter sequeces so they match the maximum length
@@ -63,7 +63,7 @@ def tokenize(texts, mp):
 
 
 def get_tokenized_text(txt):
-    x_tokenized = tokenize(txt, "microsoft/deberta-v3-base")
+    x_tokenized = tokenize(txt)
     return x_tokenized
 
 def predict(model, encodings, batch_size=8):
@@ -134,7 +134,10 @@ def after_request(response):
 def input_predict_text():
     # model = mlflow.pytorch.load_model('./models/deberta_v3_multi_with_none_large_3_epochs/pytorch_model')
     model = AutoModelForSequenceClassification.from_pretrained(
-    model_path,
+    # model_path,
+    repo_id="kathixx/fallasee_deberta_large",
+    filename="deberta_v3_multi_with_none_large_3_epochs/pytorch_model/data/model.pth",
+    token=token,
     num_labels=6,
     problem_type="single_label_classification"
 )
