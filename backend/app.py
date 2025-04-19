@@ -33,11 +33,13 @@ app.config.update(
     SESSION_COOKIE_PATH='/',
 )
 
-CORS(app, 
-     supports_credentials=True, 
-     origins= ["https://fallasee-webapp-frontend.onrender.com"],
-     methods=['GET', 'POST', 'OPTIONS'],
-     allow_headers=['Content-Type', 'Authorization']
+CORS(app, resources={
+    r"/predict": {
+     "supports_credentials": True, 
+     "origins": ["https://fallasee-webapp-frontend.onrender.com"],
+     "methods":['GET', 'POST', 'OPTIONS'],
+     "allow_headers":['Content-Type', 'Authorization']
+    }}
      
      #resources={
     # r"/predict": {

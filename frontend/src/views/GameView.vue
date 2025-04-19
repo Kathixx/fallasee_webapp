@@ -157,7 +157,7 @@ export default {
       this.txt = data.game[random].example
       this.solution = data.game[random].label
       await api.post('/predict',
-        { txt: this.txt }, 
+        { txt: this.txt }, {withCredentials: true} 
       )
       .then(res => {
         this.prediction = this.getPrediction(res.data)

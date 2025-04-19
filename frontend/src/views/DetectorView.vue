@@ -233,7 +233,7 @@ export default {
       this.sentence_to_predict = this.sentence
       // this.setFallacyToLocalStorage(this.fallacy)
       await api.post('/predict',
-        { txt: this.sentence }, 
+        { txt: this.sentence }, {withCredentials: true}, 
       )
       .then(res => {
         console.log('res push fallacy', res.data)
